@@ -1,7 +1,7 @@
 using Microsoft.EntityFrameworkCore;
 
 var builder = WebApplication.CreateBuilder(args);
-var connString = builder.Configuration.GetConnectionString("localDB");
+var connString = builder.Configuration.GetConnectionString("HospitalManagementSQLConnection");
 
 // Add services to the container.
 builder.Services.AddRazorPages();
@@ -21,6 +21,7 @@ app.UseHttpsRedirection();
 app.UseStaticFiles();
 
 app.UseRouting();
+app.UseAuthentication();;
 
 app.UseAuthorization();
 
