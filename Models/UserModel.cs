@@ -1,7 +1,6 @@
 ﻿using System.ComponentModel.DataAnnotations;
-using System.Runtime.CompilerServices;
 
-namespace DocDocGo.Model
+namespace DocDocGo.Models
 {
     public class UserModel
     {
@@ -23,6 +22,6 @@ namespace DocDocGo.Model
         public string NetInfo { get; set; }
         public DateTime CreatedAt { get; set; }
         public DateTime? LastModifiedAt { get; set; }
-        public short Deleted { get; set; }
+        public bool Deleted { get; set; }
     }
 }

@@ -5,12 +5,12 @@ namespace DocDocGo.Models
     public class PatientModel
     {
         [Key]
-        public int PatientID { get; set; }
+        public int PatientId { get; set; }
         public string? FirstName { get; set; }
         public string? LastName { get; set; }
         public string? ContactNumber { get; set; }
         [EmailAddress]
-        public string EmailAddress { get; set; }
+        public string? EmailAddress { get; set; }
         public short IsPrivatePatient { get; set; }
     }
 }

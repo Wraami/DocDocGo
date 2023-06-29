@@ -1,4 +1,5 @@
 ﻿using System.ComponentModel.DataAnnotations;
+using System.ComponentModel.DataAnnotations.Schema;
 
 namespace DocDocGo.Models
 {
@@ -6,8 +7,11 @@ namespace DocDocGo.Models
     {
         [Key]
         public int ReportId { get; set; }
+        [ForeignKey("Patient")]
         public int PatientId { get; set; }
         public string ReportType { get; set;}
         public bool IsReportPrinted { get; set; }
+
+        public PatientModel Patient { get; set; }
     }
 }

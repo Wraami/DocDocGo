@@ -1,9 +1,11 @@
+using DocDocGo.DAL;
 using Microsoft.EntityFrameworkCore;
 
 var builder = WebApplication.CreateBuilder(args);
 var connString = builder.Configuration.GetConnectionString("HospitalManagementSQLConnection");
 
 // Add services to the container.
+builder.Services.AddDbContext<ApplicationDBContext>(options => options.UseSqlServer(connString)); //we add options to configure our use of SQL server.
 builder.Services.AddRazorPages();
 builder.Services.AddRouting(options => options.LowercaseUrls = true);
 
