@@ -19,7 +19,7 @@ namespace DocDocGo.Models
         public string UserName { get; set; }
         [DataType(DataType.Password)]
         public string Password { get; set; }
-        public string NetInfo { get; set; }
+        public string NetInfo { get; set; } //this is the salt, just what i typically name it for obscuring purposes x3
         public DateTime CreatedAt { get; set; }
         public DateTime? LastModifiedAt { get; set; }
         public bool Deleted { get; set; }

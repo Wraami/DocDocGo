@@ -19,5 +19,11 @@ namespace DocDocGo.DAL
         public DbSet<RolesModel> Roles { get; set; }
         public DbSet <UserRolesModel> UserRoles { get; set; }
 
+        protected override void OnModelCreating(ModelBuilder modelBuilder)
+        {
+            modelBuilder.Entity<UserRolesModel>()
+                .HasKey(ur => new { ur.UserId, ur.RoleId });
+        }
+
     }
 }
