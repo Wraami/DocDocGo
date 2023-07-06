@@ -7,10 +7,10 @@
   </PropertyGroup>
 
   <ItemGroup>
-    <Compile Remove="Pages\Authentication\Pages\**" />
-    <Content Remove="Pages\Authentication\Pages\**" />
-    <EmbeddedResource Remove="Pages\Authentication\Pages\**" />
-    <None Remove="Pages\Authentication\Pages\**" />
+    <Compile Remove="Pages\Account\Pages\**" />
+    <Content Remove="Pages\Account\Pages\**" />
+    <EmbeddedResource Remove="Pages\Account\Pages\**" />
+    <None Remove="Pages\Account\Pages\**" />
   </ItemGroup>
 
   <ItemGroup>

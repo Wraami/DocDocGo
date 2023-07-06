@@ -15,12 +15,12 @@ namespace DocDocGo.DAL
         public DbSet<PatientModel> Patients { get; set; }
         public DbSet<PrescriptionModel> Prescriptions { get; set; }
         public DbSet<ReportModel> Reports { get; set; }
-        public DbSet<UserModel> Users { get; set; }
         public DbSet<RolesModel> Roles { get; set; }
         public DbSet <UserRolesModel> UserRoles { get; set; }
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
+
             modelBuilder.Entity<UserRolesModel>()
                 .HasKey(ur => new { ur.UserId, ur.RoleId });
         }
