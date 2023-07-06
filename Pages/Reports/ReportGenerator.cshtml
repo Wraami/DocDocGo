@@ -1,0 +1,24 @@
+﻿@page
+@model DocDocGo.Pages.Reports.ReportGeneratorModel
+@{
+    ViewData["Title"] = "Generate Report";
+}
+
+<h1> ViewData["Title"]</h1>
+
+<form method="post">
+    <div class="form-group">
+        <label for="reportType">Report Type:</label>
+        <select id="reportType" name="reportType" class="form-control">
+            <option value="1">Type 1</option>
+            <option value="2">Type 2</option>
+            <option value="3">Type 3</option>
+        </select>
+    </div>
+
+    <div class="form-group">
+        <button type="submit" class="btn btn-primary">Generate Report</button>
+        <a href="ExportToExcel" class="btn btn-secondary">Export to Excel</a>
+        <a href="ExportToCsv" class="btn btn-secondary">Export to CSV</a>
+    </div>
+</form>

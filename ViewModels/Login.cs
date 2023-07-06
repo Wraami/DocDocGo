@@ -4,6 +4,7 @@ namespace DocDocGo.ViewModels
 {
     public class LoginModel : PageModel
     {
+        public string Password { get; set; }
 
     }
 }

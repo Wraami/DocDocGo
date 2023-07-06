@@ -1,13 +1,23 @@
 using DocDocGo.DAL;
+using DocDocGo.Models;
+using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
 
 var builder = WebApplication.CreateBuilder(args);
 var connString = builder.Configuration.GetConnectionString("HospitalManagementSQLConnection");
 
 // Add services to the container.
-builder.Services.AddDbContext<ApplicationDBContext>(options => options.UseSqlServer(connString)); //we add options to configure our use of SQL server.
+builder.Services.AddDbContext<ApplicationDBContext>(options =>
+    options.UseSqlServer(connString)); //we add options to configure our use of SQL server.
 builder.Services.AddRazorPages();
 builder.Services.AddRouting(options => options.LowercaseUrls = true);
+
+builder.Services.AddIdentity<UserModel, IdentityRole<int>>(options =>
+{
+    options.User.RequireUniqueEmail = true;
+})
+    .AddEntityFrameworkStores<ApplicationDBContext>()
+    .AddDefaultTokenProviders();
 
 var app = builder.Build();
 
@@ -23,6 +33,7 @@ app.UseHttpsRedirection();
 app.UseStaticFiles();
 
 app.UseRouting();
+
 app.UseAuthentication();;
 
 app.UseAuthorization();
