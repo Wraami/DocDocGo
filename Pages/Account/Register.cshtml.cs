@@ -19,7 +19,7 @@ namespace DocDocGo.Pages.Account
 
         [BindProperty]
         public UserModel CredentialModel { get; set; }
-
+        
         public void OnGet()
         {
         }

@@ -1,4 +1,5 @@
 using DocDocGo.Models;
+using DocDocGo.ViewModels;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.RazorPages;
@@ -17,7 +18,7 @@ namespace DocDocGo.Pages.Account
             _signInManager = signInManager;
         }
         [BindProperty, Required]
-        public UserModel CredentialModel { get; set; }
+        public LoginViewModel CredentialModel { get; set; }
 
         public void OnGet()
         {
@@ -28,14 +29,14 @@ namespace DocDocGo.Pages.Account
         {
             if (ModelState.IsValid)
             {
-                var result = await _signInManager.PasswordSignInAsync(CredentialModel.Email, CredentialModel.PasswordHash, true, lockoutOnFailure: false);
+                var result = await _signInManager.PasswordSignInAsync(CredentialModel.Email, CredentialModel.Password, false, lockoutOnFailure: false);
 
-                if (result.Succeeded)
-                {
-                    return RedirectToPage("/Home/Dashboard"); // Redirect to the main dashboard.
-                }
+                    if (result.Succeeded)
+                    {
+                        return RedirectToPage("/Home/Dashboard"); // Redirect to the main dashboard.
+                    }
 
-                ModelState.AddModelError(string.Empty, "Invalid login attempt.");
+                ModelState.AddModelError(string.Empty, "Invalid credentials, Please try again!.");
             }
 
             return Page();
