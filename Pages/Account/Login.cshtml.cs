@@ -4,19 +4,22 @@ using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.RazorPages;
 using Microsoft.Build.Framework;
+using Microsoft.Extensions.Logging;
 
 namespace DocDocGo.Pages.Account
 {
     public class LoginModel : PageModel
     {
-        private readonly UserManager<UserModel> _userManager;
         private readonly SignInManager<UserModel> _signInManager;
+        private readonly ILogger<LoginModel> _logger;
 
-        public LoginModel(UserManager<UserModel> userManager, SignInManager<UserModel> signInManager)
+        public LoginModel(SignInManager<UserModel> signInManager, ILogger<LoginModel> logger)
         {
-            _userManager = userManager;
             _signInManager = signInManager;
+            _logger = logger;
+
         }
+
         [BindProperty, Required]
         public LoginViewModel CredentialModel { get; set; }
 
@@ -27,16 +30,28 @@ namespace DocDocGo.Pages.Account
 
         public async Task<IActionResult> OnPostAsync()
         {
+
             if (ModelState.IsValid)
             {
-                var result = await _signInManager.PasswordSignInAsync(CredentialModel.Email, CredentialModel.Password, false, lockoutOnFailure: false);
+                var result = await _signInManager.PasswordSignInAsync(CredentialModel.Email, CredentialModel.Password, CredentialModel.RememberMe, lockoutOnFailure: false);
 
                     if (result.Succeeded)
                     {
-                        return RedirectToPage("/Home/Dashboard"); // Redirect to the main dashboard.
-                    }
+                    _logger.LogInformation("User successfully logged in");
 
-                ModelState.AddModelError(string.Empty, "Invalid credentials, Please try again!.");
+                    return RedirectToPage("/Home/Dashboard"); // Redirect to the main dashboard.
+                    }
+                if (result.RequiresTwoFactor)
+                {
+                    return RedirectToPage("./LoginWith2fa", new { RememberMe = CredentialModel.RememberMe });
+                }
+                if (result.IsLockedOut)
+                {
+                    _logger.LogWarning("User account locked out.");
+                    return RedirectToPage("./Lockout");
+                }
+
+                ModelState.AddModelError(string.Empty, "Invalid credentials, Please try again!");
             }
 
             return Page();

@@ -1,4 +1,6 @@
 ﻿@using DocDocGo.Models
+@inject SignInManager<UserModel> SignInManager
+
 
 <!DOCTYPE html>
 <html lang="en">
@@ -25,6 +27,12 @@
                             <a class="nav-link text-dark" asp-area="" asp-page="/Index">Home</a>
                     </ul>
                 </div>
+                @{
+                    if (SignInManager.IsSignedIn(User))
+                    {
+
+                    }
+                }
                 <partial name"_LoginPartial" />
             </div>
         </nav>

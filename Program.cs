@@ -1,6 +1,8 @@
 using DocDocGo.DAL;
 using DocDocGo.Models;
+using DocDocGo.Services;
 using Microsoft.AspNetCore.Identity;
+using Microsoft.AspNetCore.Identity.UI.Services;
 using Microsoft.EntityFrameworkCore;
 
 var builder = WebApplication.CreateBuilder(args);
@@ -9,8 +11,6 @@ var connString = builder.Configuration.GetConnectionString("HospitalManagementSQ
 // Add services to the container.
 builder.Services.AddDbContext<ApplicationDBContext>(options =>
     options.UseSqlServer(connString)); //we add options to configure our use of SQL server.
-builder.Services.AddRazorPages();
-builder.Services.AddRouting(options => options.LowercaseUrls = true);
 
 builder.Services.AddIdentity<UserModel, IdentityRole<int>>(options =>
 {
@@ -18,6 +18,11 @@ builder.Services.AddIdentity<UserModel, IdentityRole<int>>(options =>
 })
     .AddEntityFrameworkStores<ApplicationDBContext>()
     .AddDefaultTokenProviders();
+
+builder.Services.AddTransient<IEmailSender, EmailSender>();
+
+builder.Services.AddRazorPages();
+builder.Services.AddRouting(options => options.LowercaseUrls = true);
 
 var app = builder.Build();
 
@@ -34,10 +39,10 @@ app.UseStaticFiles();
 
 app.UseRouting();
 
-app.UseAuthentication();;
-
+app.UseAuthentication();
 app.UseAuthorization();
 
 app.MapRazorPages();
 
 app.Run();
+
