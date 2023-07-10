@@ -28,34 +28,21 @@
                         {
                             <ul class="navbar-nav flex-grow-1">
                                 <li class="nav-item">
-                                    <a class="nav-link text-dark" asp-area="" asp-page="/Index">Home</a>
+                                    <a class="nav-link text-dark" asp-area="" asp-page="/Home/Dashboard">Home</a>
                                 </li>
                             </ul>
-                            <ul class="navbar-nav d-flex justify-content-end">
-                                <li class="nav-item">
-                                    <a class="btn btn-primary" asp-page="/Account/Logout"> Logout</a>
-                                </li>
-
-                            </ul>
+                            <div class="navbar-collapse collapse d-sm inline-flex justify-content-end">
+                                <partial name="_LoginPartial" />
+                                </div>
                         }
                         else
                         {
-                        <ul class="navbar-nav flex justify-content-end flex-grow-1">
-                            <li class="nav-item dropdown">
-                                <a class="nav-link dropdown-toggle" href="#" id="authDropdown" role="button"
-                                   data-bs-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                                    Authentication
-                                </a>
-                                <div class="dropdown-menu" aria-labelledby="authDropdown">
-                                    <a class="dropdown-item" asp-page="/Account/Login">Login</a>
-                                    <a class="dropdown-item" asp-page="/Account/Register">Register</a>
-                                </div>
-                            </li>
-                        </ul>
+                                    <ul class="navbar-nav flex justify-content-end flex-grow-1">
+                                    <partial name="_LoginPartial" />
+                                    </ul>
                         }
                     
                 </div>
-                <partial name"_LoginPartial" />
             </div>
         </nav>
     </header>

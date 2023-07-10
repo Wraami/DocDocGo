@@ -4,11 +4,15 @@ using Microsoft.AspNetCore.Mvc.RazorPages;
 
 namespace DocDocGo.Pages.Administrator
 {
-    [Authorize]
+    [Authorize(Roles = "Administrator")]
     public class SettingsModel : PageModel
     {
         public void OnGet()
         {
+        }
+
+        public void OnPost() 
+        { 
         }
     }
 }

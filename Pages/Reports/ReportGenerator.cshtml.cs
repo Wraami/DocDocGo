@@ -14,8 +14,15 @@ namespace DocDocGo.Pages.Reports
         {
             _context = context;
         }
+        
         public void OnGet()
         {
+        
+        }
+        
+        public void OnPost(IFormFile file) 
+        {
+
         }
     }
 }

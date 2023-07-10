@@ -4,7 +4,6 @@ using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.RazorPages;
 using Microsoft.Build.Framework;
-using Microsoft.Extensions.Logging;
 
 namespace DocDocGo.Pages.Account
 {
@@ -41,10 +40,12 @@ namespace DocDocGo.Pages.Account
 
                     return RedirectToPage("/Home/Dashboard"); // Redirect to the main dashboard.
                     }
+                
                 if (result.RequiresTwoFactor)
                 {
                     return RedirectToPage("./LoginWith2fa", new { RememberMe = CredentialModel.RememberMe });
                 }
+
                 if (result.IsLockedOut)
                 {
                     _logger.LogWarning("User account locked out.");
