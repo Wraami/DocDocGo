@@ -19,6 +19,11 @@ builder.Services.AddIdentity<UserModel, IdentityRole<int>>(options =>
     .AddEntityFrameworkStores<ApplicationDBContext>()
     .AddDefaultTokenProviders();
 
+builder.Services.ConfigureApplicationCookie(config =>
+{
+    config.LoginPath = "/Account/Login";
+});
+
 builder.Services.AddTransient<IEmailSender, EmailSender>();
 
 builder.Services.AddRazorPages();
