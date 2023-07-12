@@ -67,8 +67,22 @@ using (var scope = app.Services.CreateScope())
 {
     var userManager = scope.ServiceProvider.GetRequiredService<UserManager<UserModel>>();
 
-    //TODO: Add default administrator and staff account.
+    string email = "sarah-admin@hospitaltrust.com";
+    var user = await userManager.FindByEmailAsync(email);
+    if (user != null)
+    {
+            await userManager.AddToRoleAsync(user, "Administrator");
+    }
+
+    string staffemail = "pavel.sanjah-staff@hospitaltrust.com";
+    var staffuser = await userManager.FindByEmailAsync(staffemail);
+
+    if(staffuser !=null)
+    {
+            await userManager.AddToRoleAsync(staffuser, "Staff");
+    }
 }
+
 app.MapRazorPages();
 
 app.Run();

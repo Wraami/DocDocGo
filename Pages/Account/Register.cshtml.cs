@@ -34,7 +34,6 @@ namespace DocDocGo.Pages.Account
 
         public async Task<IActionResult> OnPostAsync()
         {
-
             if (ModelState.IsValid)
             {
                 var user = new UserModel
@@ -45,10 +44,18 @@ namespace DocDocGo.Pages.Account
                     FirstName = CredentialModel.FirstName,
                     MiddleName = CredentialModel?.MiddleName,
                     LastName = CredentialModel.LastName,
+                    Gender = CredentialModel.Gender,
                     UserName = CredentialModel.Email,
-                    Password = CredentialModel.Password //Need to refine so no cleartext password is stored, put in seperate viewmodel.
+                    Password = CredentialModel.Password, //Need to refine so no cleartext password is stored, put in seperate viewmodel.
+                    CreatedAt = DateTime.Now,
+                    AcceptedTerms = CredentialModel.AcceptedTerms
                 };
 
+                if(!user.AcceptedTerms)
+                {
+                    ModelState.AddModelError("ValidationError", "Please accept the terms and conditions");
+                    return Page();
+                }
                 var result = await _userManager.CreateAsync(user, user.Password);
 
                 if (result.Succeeded)
@@ -61,7 +68,7 @@ namespace DocDocGo.Pages.Account
                     var callbackUrl = Url.Page(
                         "/Account/ConfirmEmail",
                         pageHandler: null,
-                        values: new { userId =userId, code = code},
+                        values: new { userId, code},
                         protocol: Request.Scheme);
 
                     //Not needed below for purpose of assignment, but if you wanted to configure your own smtp port settings you could

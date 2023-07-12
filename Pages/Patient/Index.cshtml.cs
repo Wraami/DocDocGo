@@ -1,16 +1,14 @@
 using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.RazorPages;
 
-namespace DocDocGo.Pages.Home
+namespace DocDocGo.Pages.Patient
 {
     [Authorize]
-    public class DashboardModel : PageModel
+    public class IndexModel : PageModel
     {
         public void OnGet()
         {
-        }
-        public void OnPost() 
-        { 
         }
     }
 }

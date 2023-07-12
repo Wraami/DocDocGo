@@ -1,8 +1,12 @@
-﻿@page
+﻿
+@page
 @model DocDocGo.Pages.Home.DashboardModel
 @{
     ViewData["Title"] = "Dashboard";
-    Layout = "~/Pages/Shared/_Layout.cshtml";
+    Layout = "~/pages/shared/_DashboardLayout.cshtml";
 }
-<h1>Dashboard</h1>
+@inject UserManager<UserModel> UserManager
+@using DocDocGo.Models
+@using Microsoft.AspNetCore.Identity
 
+<h1>@ViewData["Title"]</h1>

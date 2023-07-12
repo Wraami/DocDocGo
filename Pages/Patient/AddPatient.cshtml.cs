@@ -8,5 +8,10 @@ namespace DocDocGo.Pages.Patient
         public void OnGet()
         {
         }
+
+        public void OnPost() 
+        {
+        
+        }    
     }
 }

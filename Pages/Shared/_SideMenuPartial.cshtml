@@ -1,0 +1,31 @@
+﻿@using DocDocGo.Models
+@using Microsoft.AspNetCore.Identity
+@inject SignInManager<UserModel> SignInManager
+
+<div class="sidebar">
+    <ul class="nav flex-column">
+        <li class="nav-item">
+            <a class="nav-tabs" asp-page="/Patient/Index">Patients</a>
+        </li>
+        <li class="nav-item">
+            <a class="nav-tabs" asp-page="/Appointments/Index">Appointments</a>
+        </li>
+        <li class="nav-item">
+            <a class="nav-tabs" asp-page="/Reports">Reports</a>
+        </li>
+        @if (User.IsInRole("Administrator"))
+        {
+                <li class="nav-item">
+                    <a class="nav-tabs" asp-page="/Administrator/Settings">Administrator Settings</a>
+                </li>
+        }
+    </ul>
+</div>
+
+@functions {
+    public string IsActive(string url)
+    {
+        var currentPath = Context.Request.Path;
+        return currentPath.StartsWithSegments(url) ? "active" : "";
+    }
+}
