@@ -1,4 +1,60 @@
 ﻿@page
 @model DocDocGo.Pages.Patient.IndexModel
 @{
+    Layout = "~/Pages/Shared/_DashboardLayout.cshtml";
+
 }
+@using DocDocGo.Models;
+
+<div class="row">
+    <div class="col-md-5">
+        <div class="row">
+            <div class="col-md-5">
+                <form class="d-flex">
+                    <input class="form-control me-sm-2" type="search" placeholder="Search">
+                    <button class="btn btn-secondary my-2 my-sm-0" type="submit"><i class="bi bi-search"></i></button>
+                </form>
+        <table class="table table-bordered table-striped" style="width:100%">
+                <thead>
+                    <tr>
+                        <th>Patient ID</th>
+                        <th>First Name</th>
+                        <th>Last Name</th>
+                        <th>Contact Number</th>
+                        <th>Email Address</th>
+                        <th>Is Private Patient</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    @foreach (var patient in Model.Patients)
+                    {
+                        <tr>
+                            <td>@patient.PatientId</td>
+                            <td>@patient.FirstName</td>
+                            <td>@patient.LastName</td>
+                            <td>@patient.ContactNumber</td>
+                            <td>@patient.EmailAddress</td>
+                            <td>@(patient.IsPrivatePatient ? "Yes" : "No")</td>
+                        </tr>
+                    }
+                </tbody>
+        </table>
+            </div>
+        </div>
+    </div>
+</div>
+<script>
+    $(document).ready(function () {
+        $('#searchInput').keyup(function () {
+            var searchText = $(this).val().toLowerCase();
+            $('table tbody tr').each(function () {
+                var rowText = $(this).text().toLowerCase();
+                if (rowText.indexOf(searchText) === -1) {
+                    $(this).hide();
+                } else {
+                    $(this).show();
+                }
+            });
+        });
+    });
+</script>

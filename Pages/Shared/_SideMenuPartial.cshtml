@@ -2,30 +2,39 @@
 @using Microsoft.AspNetCore.Identity
 @inject SignInManager<UserModel> SignInManager
 
-<div class="sidebar">
+<nav class="sidebar">
     <ul class="nav flex-column">
         <li class="nav-item">
-            <a class="nav-tabs" asp-page="/Patient/Index">Patients</a>
+                    <a class="nav-link" asp-page="/Patient/Index">Patients</a>
+            <ul class="submenu">
+                <li class="nav-item">
+                    <a class="nav-link" asp-page="/Patient/Create">Add A Patient</a>
+                </li>
+            </ul>
         </li>
         <li class="nav-item">
-            <a class="nav-tabs" asp-page="/Appointments/Index">Appointments</a>
+                    <a class="nav-link" asp-page="/Appointments/Index">Appointments</a>
+            <ul class="submenu">
+                <li class="nav-item">
+                    <a class="nav-link" asp-page="/Appointments/Create">Add A Appointment</a>
+                </li>
+            </ul>
         </li>
         <li class="nav-item">
-            <a class="nav-tabs" asp-page="/Reports">Reports</a>
+         <a class="nav-link" asp-page="/Reports/Index">Reports</a>
+            <ul class="submenu">
+  
+                <li class="nav-item">
+                    <a class="nav-link" asp-page="/Reports/ReportGenerator">Generate A Report</a>
+                </li>
+            </ul>
         </li>
         @if (User.IsInRole("Administrator"))
         {
-                <li class="nav-item">
-                    <a class="nav-tabs" asp-page="/Administrator/Settings">Administrator Settings</a>
-                </li>
+            <li class="nav-item">
+            <a class="nav-link" asp-page="/Administrator/Settings">Administrator Settings</a>
+        </li>
+
         }
     </ul>
-</div>
-
-@functions {
-    public string IsActive(string url)
-    {
-        var currentPath = Context.Request.Path;
-        return currentPath.StartsWithSegments(url) ? "active" : "";
-    }
-}
+</nav>

@@ -1,4 +1,20 @@
 ﻿@page
 @model DocDocGo.Pages.Appointments.IndexModel
 @{
+    Layout = "~/Pages/Shared/_DashboardLayout.cshtml";
+}
+
+<div class="container">
+    <div id="calendar"></div>
+</div>
+
+@section Scripts {
+
+    <script>
+        $(document).ready(function () {
+            $('#calendar').fullCalendar({
+                events: '/Appointments/GetEvents'
+            });
+        });
+    </script>
 }
