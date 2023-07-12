@@ -71,7 +71,12 @@ using (var scope = app.Services.CreateScope())
     var user = await userManager.FindByEmailAsync(email);
     if (user != null)
     {
+        bool isInRole = await userManager.IsInRoleAsync(user, "Administrator");
+
+        if (!isInRole)
+        {
             await userManager.AddToRoleAsync(user, "Administrator");
+        }
     }
 
     string staffemail = "pavel.sanjah-staff@hospitaltrust.com";
@@ -79,7 +84,12 @@ using (var scope = app.Services.CreateScope())
 
     if(staffuser !=null)
     {
+        bool isInRole = await userManager.IsInRoleAsync(staffuser, "Staff");
+
+        if (!isInRole)
+        {
             await userManager.AddToRoleAsync(staffuser, "Staff");
+        }
     }
 }
 
