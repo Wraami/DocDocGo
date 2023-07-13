@@ -1,10 +1,11 @@
 using DocDocGo.DAL;
 using DocDocGo.Models;
 using DocDocGo.Services;
-using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Identity.UI.Services;
 using Microsoft.EntityFrameworkCore;
+using DocDocGo.Repositories.Interfaces;
+using DocDocGo.Repositories;
 
 var builder = WebApplication.CreateBuilder(args);
 var connString = builder.Configuration.GetConnectionString("HospitalManagementSQLConnection");
@@ -12,6 +13,11 @@ var connString = builder.Configuration.GetConnectionString("HospitalManagementSQ
 // Add services to the container.
 builder.Services.AddDbContext<ApplicationDBContext>(options =>
     options.UseSqlServer(connString)); //we add options to configure our use of SQL server.
+
+builder.Services.AddScoped<IRepository<AppointmentModel>, AppointmentRepository>();
+builder.Services.AddScoped<IRepository<PatientModel>, PatientRepository>();
+builder.Services.AddScoped<IRepository<PrescriptionModel>, PrescriptionRepository>();
+builder.Services.AddScoped<IRepository<ReportModel>, ReportRepository>();
 
 builder.Services.AddIdentity<UserModel, IdentityRole<int>>(options =>
 {
