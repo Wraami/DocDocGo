@@ -2,3 +2,55 @@
 @model DocDocGo.Pages.Patient.AddPatientModel
 @{
 }
+<div class="container border" style="padding: 20px">
+    <section>
+        <form method="post">
+            <div asp-validation-summary="All" class="text-danger"></div>
+            <div class="form-floating">
+                <input asp-for="NewPatientModel.FirstName" class="form-control" />
+                <label asp-for="NewPatientModel.FirstName" class="form-label"> First name</label>
+                <span asp-validation-for="NewPatientModel.FirstName" class="text-danger"></span>
+            </div>
+            <div style="margin-bottom: 10px;"></div>
+
+            <div class="form-floating">
+                <input asp-for="NewPatientModel.LastName" class="form-control" />
+                <label asp-for="NewPatientModel.LastName" class="form-label">Last name</label>
+                <span asp-validation-for="NewPatientModel.LastName" class="text-danger"></span>
+            </div>
+            <div style="margin-bottom: 10px;"></div>
+
+
+            <div class="form-floating">
+                <input asp-for="NewPatientModel.EmailAddress" class="form-control" autocomplete="username" />
+                <label asp-for="NewPatientModel.EmailAddress" class="form-label">Email Address</label>
+                <span asp-validation-for="NewPatientModel.EmailAddress" class="text-danger"></span>
+            </div>
+            <div style="margin-bottom: 10px;"></div>
+
+            <div class="form-floating">
+                <input asp-for="NewPatientModel.ContactNumber" class="form-control" autocomplete="tel" />
+                <label asp-for="NewPatientModel.ContactNumber" class="form-label"> Phone Number</label>
+                <span asp-validation-for="NewPatientModel.ContactNumber" class="text-danger"></span>
+            </div>
+            <div style="margin-bottom: 10px;"></div>
+
+       
+            <div style="margin-bottom: 15px;"></div>
+            <div class="form-check">
+                <input asp-for="NewPatientModel.IsPrivatePatient" class="form-check-input" type="checkbox" aria-required="true   />
+                <label asp-for="NewPatientModel.IsPrivatePatient" class="form-check-label">
+                   Is not using state healthcare options?
+                </label>
+            </div>
+            <div style="margin-bottom: 15px;"></div>
+            <div class="form-group d-flex align-items-center">
+                <div class="col-7 offset-2 text-center">
+                    <button type="submit" class="btn btn-primary btn-block btn-lg">Add Patient</button>
+                </div>
+            </div>
+            <div class="form-group">
+            </div>
+        </form>
+    </section>
+</div>

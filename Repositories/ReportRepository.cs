@@ -30,12 +30,18 @@ namespace DocDocGo.Repositories
 
         public async Task<ReportModel> GetByIdAsync(int id)
         {
-            return await _dbcontext.Reports.FindAsync(id);
+          var report = await _dbcontext.Reports.FindAsync(id);
+            if(report == null)
+            {
+
+                throw new Exception("report not found");
+            }
+            return report;
         }
 
         public async Task<ReportModel> UpdateAsync(ReportModel entity)
         {
-            _dbcontext.Reports.Update(entity);
+            _dbcontext.Entry(entity).CurrentValues.SetValues(entity);
 
             await _dbcontext.SaveChangesAsync();
 

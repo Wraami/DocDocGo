@@ -30,16 +30,21 @@ namespace DocDocGo.Repositories
 
         public async Task<PrescriptionModel> GetByIdAsync(int id)
         {
-            return await _dbcontext.Prescriptions.FindAsync(id);
+            var prescription = await _dbcontext.Prescriptions.FindAsync(id);
+            if (prescription == null)
+            {
 
+                throw new Exception("prescription not found");
+            }
+            return prescription;
         }
 
         public async Task<PrescriptionModel> UpdateAsync(PrescriptionModel entity)
         {
-            _dbcontext.Prescriptions.Update(entity);
-            
+            _dbcontext.Entry(entity).CurrentValues.SetValues(entity);
+
             await _dbcontext.SaveChangesAsync();
-           
+
             return entity;
         }
     }

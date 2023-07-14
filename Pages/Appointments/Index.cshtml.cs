@@ -49,21 +49,32 @@ namespace DocDocGo.Pages.Appointments
         }
 
         public async Task<IActionResult> OnPostAddAppointment()
-        {
-           
+        {    
             if (!ModelState.IsValid)
             {              
                 return Page();
             }
 
-            if (NewAppointment.StartTime >= NewAppointment.EndTime)
+            var AppointmentData = new AppointmentModel
+            { 
+                AppointmentId = 1,
+                PatientId = 1,
+                StartTime = NewAppointment.StartTime,
+                EndTime = NewAppointment.EndTime,
+                Notes = NewAppointment.Notes,
+                Status = NewAppointment.Status,
+                Topic = NewAppointment.Topic
+            
+            };
+
+            if (AppointmentData.StartTime >= AppointmentData.EndTime)
             {
                 ModelState.AddModelError("ValidationError", "Appointment starting time must be before end time.");
                 return Page();
             }
 
             // Add the new appointment to the database.
-            await _dbContext.CreateAsync(NewAppointment);
+            await _dbContext.CreateAsync(AppointmentData);
 
             return RedirectToPage("/Appointments/Index");
         }

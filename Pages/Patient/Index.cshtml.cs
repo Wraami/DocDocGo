@@ -1,9 +1,7 @@
-using DocDocGo.DAL;
 using DocDocGo.Models;
 using DocDocGo.Repositories.Interfaces;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc.RazorPages;
-using Microsoft.EntityFrameworkCore;
 
 namespace DocDocGo.Pages.Patient
 {
@@ -20,7 +18,7 @@ namespace DocDocGo.Pages.Patient
 
         public async Task OnGet()
         {
-           Patients = await _dbContext.GetAsync();
+            Patients = await _dbContext.GetAsync();
         }
     }
 }

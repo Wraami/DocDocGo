@@ -30,12 +30,18 @@ namespace DocDocGo.Repositories
 
         public async Task<PatientModel> GetByIdAsync(int id)
         {
-            return await _dbcontext.Patients.FindAsync(id);
+            var patient = await _dbcontext.Patients.FindAsync(id);
+            if (patient == null)
+            {
+
+                throw new Exception("patient not found");
+            }
+            return patient;
         }
 
         public async Task<PatientModel> UpdateAsync(PatientModel entity)
         {
-            _dbcontext.Patients.Update(entity);
+            _dbcontext.Entry(entity).CurrentValues.SetValues(entity);
 
             await _dbcontext.SaveChangesAsync();
 

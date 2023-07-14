@@ -31,12 +31,18 @@ namespace DocDocGo.Repositories
 
         public async Task<AppointmentModel> GetByIdAsync(int id)
         {
-            return await _dbcontext.Appointments.FindAsync(id);
+            var appointment = await _dbcontext.Appointments.FindAsync(id);
+            if (appointment == null)
+            {
+
+                throw new Exception("prescription not found");
+            }
+            return appointment;
         }
 
         public async Task<AppointmentModel> UpdateAsync(AppointmentModel entity)
         {
-            _dbcontext.Appointments.Update(entity);
+            _dbcontext.Entry(entity).CurrentValues.SetValues(entity);
 
             await _dbcontext.SaveChangesAsync();
 

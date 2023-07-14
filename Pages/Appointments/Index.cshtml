@@ -73,13 +73,18 @@
                             <label asp-for="SelectedAppointment.Topic" class="form-label"></label>
                             <input type="text" class="form-control" asp-for="SelectedAppointment.Topic">
                         </div>
-                      
                         <br>
-                        <div class="form-floating">
-                            <input type="time" id="start-time" name="start-time" asp-for="SelectedAppointment.StartTime">
+                        <div class="form-group row">
+                            <label asp-for="SelectedAppointment.StartTime" class="col-sm-3 col-form-label">Start Time:</label>
+                            <div class="col-sm-9">
+                                <input type="time" class="form-control" asp-for="SelectedAppointment.StartTime">
+                            </div>
                         </div>
-                    <div class="form-floating">
-                            <input type="time" id="end-time" name="end-time" asp-for="SelectedAppointment.EndTime">
+                        <div class="form-group row">
+                            <label asp-for="SelectedAppointment.EndTime" class="col-sm-3 col-form-label">End Time:</label>
+                            <div class="col-sm-9">
+                                <input type="time" class="form-control" asp-for="SelectedAppointment.EndTime">
+                            </div>
                         </div>
                         <br>
                         <div class="form-floating">
