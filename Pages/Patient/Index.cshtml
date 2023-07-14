@@ -34,7 +34,7 @@
                             <td>@patient.PatientId</td>
                             <td>@patient.FirstName</td>
                             <td>@patient.LastName</td>
-                            <td>@patient.ContactNumber</td>
+                            <td class="contact-number">@patient.ContactNumber</td>
                             <td>@patient.EmailAddress</td>
                             <td>@(patient.IsPrivatePatient ? "Private Healthcare" : "NHS Treatment")</td>
                         </tr>
@@ -58,4 +58,9 @@
             });
         });
     </script>
+    <style>
+        .contact-number {
+            white-space: nowrap; /*makes sure line breaks aren't enforced on the column.*/
+        }
+    </style>
 }

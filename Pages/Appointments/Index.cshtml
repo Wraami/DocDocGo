@@ -4,16 +4,120 @@
     Layout = "~/Pages/Shared/_DashboardLayout.cshtml";
 }
 
+  <section>
 <div class="container">
     <div id="calendar"></div>
 </div>
+    <!-- Add Appointment Modal -->
+    <div class="modal fade" id="appointment-add">
+        <div class="modal-dialog">
+                    <form method="post" asp-page-handler="AddAppointment">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h4 class="modal-title">Add An Appointment</h4>
+                    <button type="button" class="close" data-dismiss="modal">&times;</button>
+                </div>
+                <div class="modal-body">
+                        <div class="form-floating">
+                            <label asp-for="NewAppointment.Topic" class="form-label"></label>
+                            <input type="text" class="form-control" asp-for="NewAppointment.Topic">
+                        </div>
+                        <br>
+                        <div class="form-group row">
+                            <label asp-for="NewAppointment.StartTime" class="col-sm-3 col-form-label">Start Time:</label>
+                            <div class="col-sm-9">
+                                <input type="time" class="form-control" asp-for="NewAppointment.StartTime">
+                            </div>
+                        </div>
+                        <div class="form-group row">
+                            <label asp-for="NewAppointment.EndTime" class="col-sm-3 col-form-label">End Time:</label>
+                            <div class="col-sm-9">
+                                <input type="time" class="form-control" asp-for="NewAppointment.EndTime">
+                            </div>
+                        </div>
+                    <br>
+                    <div class="form-floating">
+                            <label asp-for="NewAppointment.Notes" class="form-label"></label>
+                            <textarea id="notes" class="form-control" asp-for="NewAppointment.Notes"></textarea>
+                        </div>
+                    <div class="form-check">
+                            <input class="form-check-input" asp-for="NewAppointment.Status" type="checkbox" aria-required="true" />
+                        <label asp-for="NewAppointment.Status" class="form-check-label">
+                            Is a scheduled appointment?
+                        </label>
+                    </div>
+                </div>
+                    <div asp-validation-summary="All" class="text-danger"></div>
+
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-danger" data-dismiss="modal">Close</button>
+                    <button type="submit" class="btn btn-success">Add Appointment</button>
+                </div>
+            </div>
+         </form>
+        </div>
+    </div>
+
+    <!-- Edit / Update Appointment Modal -->
+
+<div class="modal fade" id="appointment-edit">
+<div class="modal-dialog">
+            <form method="post" asp-page-handler="Update">
+    <div class="modal-content">
+        <div class="modal-header">
+                <h4 id="modalTitle" class="modal-title"></h4>
+                <button type="button" class="close" data-dismiss="modal">&times;</button>
+            </div>
+            <div class="modal-body">
+                        <div class="form-floating">
+                            <label asp-for="SelectedAppointment.Topic" class="form-label"></label>
+                            <input type="text" class="form-control" asp-for="SelectedAppointment.Topic">
+                        </div>
+                      
+                        <br>
+                        <div class="form-floating">
+                            <input type="time" id="start-time" name="start-time" asp-for="SelectedAppointment.StartTime">
+                        </div>
+                    <div class="form-floating">
+                            <input type="time" id="end-time" name="end-time" asp-for="SelectedAppointment.EndTime">
+                        </div>
+                        <br>
+                        <div class="form-floating">
+                            <textarea id="notes" class="form-control" asp-for="SelectedAppointment.Notes"></textarea>
+                            <label asp-for="SelectedAppointment.Notes" class="form-label"></label>
+                        </div>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-danger" data-dismiss="modal">Close</button>
+                        <button type="submit" class="btn btn-success">Update Appointment</button>
+            </div>
+            </div>
+            </form>
+    </div>
+</div>
+</section>
 
 @section Scripts {
 
     <script>
         $(document).ready(function () {
             $('#calendar').fullCalendar({
-                events: '/Appointments/Index?handler=AppointmentEvents'
+                header: {
+                    left: 'prev, next, today',
+                    right: 'month,agendaWeek,agendaDay' //Displays buttons for selecting monthly, weekly and daily views.
+                },
+                eventClick: function (event, jsEvent, view){
+                    $('#modalTitle').html(event.title);
+                    $('#modalBody').html(event.description);
+                    $('#eventUrl').attr('href', event.url);
+                    var modal = $("#appointment-edit");
+                   modal.modal('show');
+                },
+                dayClick: function (date, jsEvent, view) {
+                    $('#appointment-add').modal('show');
+                },
+                firstDay: 1, //Sets beginning calendar day to monday rather than default sunday.
+                events: '/Appointments/Index?handler=Events'
             });
         });
     </script>

@@ -16,15 +16,75 @@ namespace DocDocGo.Pages.Appointments
             _dbContext = dbContext;
         }
 
-        public async Task<IActionResult> OnGet()
+        [BindProperty]
+        public AppointmentModel NewAppointment { get; set; }
+
+        [BindProperty]
+        public AppointmentModel SelectedAppointment { get; set; }
+
+        public IActionResult OnGet()
         {
             return Page();
         }
-        
-        public async Task<JsonResult> OnGetAppointmentEvents() //Used for fetching appointments, seperate event is more scalable.
+
+        public async Task<IActionResult> OnGetEvents()
         {
-            var events = await _dbContext.GetAsync();
-            return new JsonResult(events);
+            IEnumerable<AppointmentModel> appointments = await _dbContext.GetAsync();
+
+            var eventList = new List<object>();
+            foreach (var appointment in appointments)
+            {
+
+                var eventData = new
+                {
+                    id = appointment.AppointmentId,
+                    title = appointment.Topic,
+                    start = appointment.StartTime,
+                    end = appointment.EndTime
+                };
+
+                eventList.Add(eventData);
+            }
+            return new JsonResult(eventList);
+        }
+
+        public async Task<IActionResult> OnPostAddAppointment()
+        {
+           
+            if (!ModelState.IsValid)
+            {              
+                return Page();
+            }
+
+            if (NewAppointment.StartTime >= NewAppointment.EndTime)
+            {
+                ModelState.AddModelError("ValidationError", "Appointment starting time must be before end time.");
+                return Page();
+            }
+
+            // Add the new appointment to the database.
+            await _dbContext.CreateAsync(NewAppointment);
+
+            return RedirectToPage("/Appointments/Index");
+        }
+
+
+        public async Task<IActionResult> OnPostUpdateAppointment()
+        {
+            if (!ModelState.IsValid)
+            {
+                // Handle validation errors
+                return Page();
+            }
+            if (SelectedAppointment.StartTime >= SelectedAppointment.EndTime)
+            {
+                ModelState.AddModelError("ValidationError", "Appointment starting time must be before end time.");
+                return Page();
+            }
+            //appropriate code here for updating when implemented.
+
+            // Redirect to the same page or another page if needed
+            return RedirectToPage("/Appointments/Index");
         }
     }
 }
