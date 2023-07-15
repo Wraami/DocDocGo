@@ -22,10 +22,13 @@ builder.Services.AddScoped<IRepository<ReportModel>, ReportRepository>();
 builder.Services.AddIdentity<UserModel, IdentityRole<int>>(options =>
 {
     options.User.RequireUniqueEmail = true;
+    options.Lockout.DefaultLockoutTimeSpan = TimeSpan.FromMinutes(15); // Locks a user out of the application.
+    options.Lockout.MaxFailedAccessAttempts = 5;
 })
     .AddEntityFrameworkStores<ApplicationDBContext>()
     .AddRoles<IdentityRole<int>>()
     .AddDefaultTokenProviders();
+
 
 builder.Services.ConfigureApplicationCookie(config =>
 {
@@ -59,7 +62,7 @@ using (var scope = app.Services.CreateScope())
 {
     var roleManager = scope.ServiceProvider.GetRequiredService<RoleManager<IdentityRole<int>>>();
 
-    var roles = new[] { "Administrator", "Staff", "Patient" };
+    var roles = new[] { "Administrator", "Staff"};
     foreach (var role in roles)
     {
         if (!await roleManager.RoleExistsAsync(role))

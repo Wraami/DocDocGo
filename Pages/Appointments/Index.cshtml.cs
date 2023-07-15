@@ -57,8 +57,6 @@ namespace DocDocGo.Pages.Appointments
 
             var AppointmentData = new AppointmentModel
             { 
-                AppointmentId = 1,
-                PatientId = 1,
                 StartTime = NewAppointment.StartTime,
                 EndTime = NewAppointment.EndTime,
                 Notes = NewAppointment.Notes,
@@ -92,7 +90,25 @@ namespace DocDocGo.Pages.Appointments
                 ModelState.AddModelError("ValidationError", "Appointment starting time must be before end time.");
                 return Page();
             }
-            //appropriate code here for updating when implemented.
+            await _dbContext.UpdateAsync(SelectedAppointment);
+
+            // Redirect to the same page or another page if needed
+            return RedirectToPage("/Appointments/Index");
+        }
+
+        public async Task<IActionResult> OnPostDeleteAppointment()
+        {
+            if (!ModelState.IsValid)
+            {
+                // Handle validation errors
+                return Page();
+            }
+            if (SelectedAppointment.StartTime >= SelectedAppointment.EndTime)
+            {
+                ModelState.AddModelError("ValidationError", "Appointment starting time must be before end time.");
+                return Page();
+            }
+            //appropriate code here for deleting when implemented.
 
             // Redirect to the same page or another page if needed
             return RedirectToPage("/Appointments/Index");

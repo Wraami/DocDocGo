@@ -1,9 +1,7 @@
-using DocDocGo.DAL;
 using DocDocGo.Models;
 using DocDocGo.Repositories.Interfaces;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc.RazorPages;
-using Microsoft.EntityFrameworkCore;
 
 namespace DocDocGo.Pages.Reports
 {
@@ -15,7 +13,7 @@ namespace DocDocGo.Pages.Reports
 
         public ReportsModel(IRepository<ReportModel> dbcontext)
         {
-                _dbcontext = dbcontext;
+            _dbcontext = dbcontext;
         }
 
         public async Task OnGet()

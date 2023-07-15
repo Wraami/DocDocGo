@@ -4,6 +4,7 @@ using Microsoft.AspNetCore.Authorization;
 using DocDocGo.Models;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.RazorPages;
+using OfficeOpenXml;
 
 namespace DocDocGo.Pages.Reports
 {
@@ -17,13 +18,17 @@ namespace DocDocGo.Pages.Reports
             _dbContext = dbContext;
         }
 
+        [BindProperty]
+        public ReportModel ReportModel { get; set; }
+
         public void OnGet()
         {
         
         }
         
-        public void OnPost(IFormFile file) 
+        public async Task OnPost(IFormFile file) 
         {
+            var reports = _dbContext.GetByIdAsync(ReportModel.ReportId);
 
         }
     }

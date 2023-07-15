@@ -11,7 +11,7 @@
     <!-- Add Appointment Modal -->
     <div class="modal fade" id="appointment-add">
         <div class="modal-dialog">
-                    <form method="post" asp-page-handler="AddAppointment">
+        <form method="post" asp-page-handler="AddAppointment">
             <div class="modal-content">
                 <div class="modal-header">
                     <h4 class="modal-title">Add An Appointment</h4>
@@ -19,9 +19,11 @@
                 </div>
                 <div class="modal-body">
                         <div class="form-floating">
-                            <label asp-for="NewAppointment.Topic" class="form-label"></label>
                             <input type="text" class="form-control" asp-for="NewAppointment.Topic">
+                            <label asp-for="NewAppointment.Topic" class="form-label"></label>
+                           <span asp-validation-for="NewAppointment.Topic" class="text-danger"></span>
                         </div>
+
                         <br>
                         <div class="form-group row">
                             <label asp-for="NewAppointment.StartTime" class="col-sm-3 col-form-label">Start Time:</label>
@@ -36,15 +38,17 @@
                             </div>
                         </div>
                     <br>
-                    <div class="form-floating">
-                            <label asp-for="NewAppointment.Notes" class="form-label"></label>
+                      <div class="form-floating">
                             <textarea id="notes" class="form-control" asp-for="NewAppointment.Notes"></textarea>
+                            <label asp-for="NewAppointment.Notes" class="form-label"></label>
+                            <span asp-validation-for="NewAppointment.Notes" class="text-danger"></span>
                         </div>
                     <div class="form-check">
                             <input class="form-check-input" asp-for="NewAppointment.Status" type="checkbox" aria-required="true" />
                         <label asp-for="NewAppointment.Status" class="form-check-label">
                             Is a scheduled appointment?
                         </label>
+                        <span asp-validation-for="NewAppointment.Status" class="text-danger"></span>
                     </div>
                 </div>
                     <div asp-validation-summary="All" class="text-danger"></div>
@@ -62,7 +66,7 @@
 
 <div class="modal fade" id="appointment-edit">
 <div class="modal-dialog">
-            <form method="post" asp-page-handler="Update">
+            <form method="post" asp-page-handler="UpdateAppointment">
     <div class="modal-content">
         <div class="modal-header">
                 <h4 id="modalTitle" class="modal-title"></h4>
@@ -70,8 +74,9 @@
             </div>
             <div class="modal-body">
                         <div class="form-floating">
-                            <label asp-for="SelectedAppointment.Topic" class="form-label"></label>
                             <input type="text" class="form-control" asp-for="SelectedAppointment.Topic">
+                            <label asp-for="SelectedAppointment.Topic" class="form-label"></label>
+                            <span asp-validation-for="SelectedAppointment.Topic" class="text-danger"></span>
                         </div>
                         <br>
                         <div class="form-group row">
@@ -90,8 +95,10 @@
                         <div class="form-floating">
                             <textarea id="notes" class="form-control" asp-for="SelectedAppointment.Notes"></textarea>
                             <label asp-for="SelectedAppointment.Notes" class="form-label"></label>
+                            <span asp-validation-for="SelectedAppointment.Notes" class="text-danger"></span>
                         </div>
             </div>
+                                <div asp-validation-summary="All" class="text-danger"></div>
             <div class="modal-footer">
                 <button type="button" class="btn btn-danger" data-dismiss="modal">Close</button>
                         <button type="submit" class="btn btn-success">Update Appointment</button>
