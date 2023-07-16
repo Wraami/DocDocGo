@@ -14,7 +14,7 @@ var connString = builder.Configuration.GetConnectionString("HospitalManagementSQ
 builder.Services.AddDbContext<ApplicationDBContext>(options =>
     options.UseSqlServer(connString)); //we add options to configure our use of SQL server.
 
-builder.Services.AddScoped<IRepository<AppointmentModel>, AppointmentRepository>();
+builder.Services.AddScoped<IAppointmentRepository<AppointmentModel>, AppointmentRepository>();
 builder.Services.AddScoped<IRepository<PatientModel>, PatientRepository>();
 builder.Services.AddScoped<IRepository<PrescriptionModel>, PrescriptionRepository>();
 builder.Services.AddScoped<IRepository<ReportModel>, ReportRepository>();

@@ -17,7 +17,6 @@
   <ItemGroup>
     <Compile Remove="Models\RolesModel.cs" />
     <Compile Remove="Models\UserRolesModel.cs" />
-    <Compile Remove="Repositories\Interfaces\IAppointmentRepository.cs" />
     <Compile Remove="Repositories\Interfaces\IPatientRepository.cs" />
     <Compile Remove="Repositories\Interfaces\IPrescriptionRepository.cs" />
     <Compile Remove="Repositories\Interfaces\IReportRepository.cs" />

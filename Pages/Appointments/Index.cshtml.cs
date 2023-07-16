@@ -7,13 +7,16 @@ namespace DocDocGo.Pages.Appointments
 {
     public class IndexModel : PageModel
     {
-        private readonly IRepository<AppointmentModel> _dbContext;
+        private readonly IAppointmentRepository<AppointmentModel> _dbContext;
+        private readonly IRepository<PatientModel> _patientcontext;
 
         public IEnumerable<AppointmentModel> Appointments { get; set; }
+        public IEnumerable<PatientModel> Patients { get; set; }
 
-        public IndexModel(IRepository<AppointmentModel> dbContext)
+        public IndexModel(IAppointmentRepository<AppointmentModel> dbContext, IRepository<PatientModel> patientRepository)
         {
             _dbContext = dbContext;
+            _patientcontext = patientRepository;
         }
 
         [BindProperty]
@@ -22,8 +25,12 @@ namespace DocDocGo.Pages.Appointments
         [BindProperty]
         public AppointmentModel SelectedAppointment { get; set; }
 
-        public IActionResult OnGet()
+        [BindProperty]
+        public int SelectedAppointmentId { get; set; }
+
+        public async Task<IActionResult> OnGet()
         {
+            Patients = await _patientcontext.GetAsync();
             return Page();
         }
 
@@ -48,16 +55,52 @@ namespace DocDocGo.Pages.Appointments
             return new JsonResult(eventList);
         }
 
+        public async Task<IActionResult> OnGetAppointment(int id)
+        {
+            var appointment = await _dbContext.GetByIdAsync(id);
+
+            if (appointment == null)
+            {
+                return NotFound();
+            }
+
+            var appointmentData = new
+            {
+                topic = appointment.Topic,
+                patientId = appointment.PatientId,
+                startTime = appointment.StartTime,
+                endTime = appointment.EndTime,
+                notes = appointment.Notes
+            };
+
+            return new JsonResult(appointmentData);
+        }
+
+
+
         public async Task<IActionResult> OnPostAddAppointment()
-        {    
+        {
             if (!ModelState.IsValid)
-            {              
+            {
+                // Get all model state errors
+                var errors = ModelState.Values.SelectMany(v => v.Errors).Select(e => e.ErrorMessage);
+
+                // Log or display the errors
+                foreach (var error in errors)
+                {
+                    Console.WriteLine(error); // Replace with your desired error handling logic
+                }
                 return Page();
             }
+            DateTime selectedDate = NewAppointment.StartTime.Date;
+
+            // Combine the selected date with the time component of the NewAppointment.StartTime property
+            DateTime combinedDateTime = selectedDate.Add(NewAppointment.StartTime.TimeOfDay);
 
             var AppointmentData = new AppointmentModel
             { 
                 StartTime = NewAppointment.StartTime,
+                PatientId = NewAppointment.PatientId,
                 EndTime = NewAppointment.EndTime,
                 Notes = NewAppointment.Notes,
                 Status = NewAppointment.Status,
@@ -68,7 +111,6 @@ namespace DocDocGo.Pages.Appointments
             if (AppointmentData.StartTime >= AppointmentData.EndTime)
             {
                 ModelState.AddModelError("ValidationError", "Appointment starting time must be before end time.");
-                return Page();
             }
 
             // Add the new appointment to the database.
@@ -82,7 +124,6 @@ namespace DocDocGo.Pages.Appointments
         {
             if (!ModelState.IsValid)
             {
-                // Handle validation errors
                 return Page();
             }
             if (SelectedAppointment.StartTime >= SelectedAppointment.EndTime)
@@ -92,25 +133,18 @@ namespace DocDocGo.Pages.Appointments
             }
             await _dbContext.UpdateAsync(SelectedAppointment);
 
-            // Redirect to the same page or another page if needed
             return RedirectToPage("/Appointments/Index");
         }
 
         public async Task<IActionResult> OnPostDeleteAppointment()
         {
-            if (!ModelState.IsValid)
-            {
-                // Handle validation errors
-                return Page();
-            }
-            if (SelectedAppointment.StartTime >= SelectedAppointment.EndTime)
-            {
-                ModelState.AddModelError("ValidationError", "Appointment starting time must be before end time.");
-                return Page();
-            }
-            //appropriate code here for deleting when implemented.
+            var appointmentToDelete = await _dbContext.GetByIdAsync(SelectedAppointmentId);
 
-            // Redirect to the same page or another page if needed
+            if (appointmentToDelete != null)
+            {
+                await _dbContext.DeleteAsync(appointmentToDelete);
+            }
+
             return RedirectToPage("/Appointments/Index");
         }
     }

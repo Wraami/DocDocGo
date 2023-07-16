@@ -6,7 +6,7 @@ using Microsoft.EntityFrameworkCore;
 
 namespace DocDocGo.Repositories
 {
-    public class AppointmentRepository : IRepository<AppointmentModel>
+    public class AppointmentRepository : IAppointmentRepository<AppointmentModel>
     {
         private readonly ApplicationDBContext _dbcontext;
 
@@ -35,7 +35,7 @@ namespace DocDocGo.Repositories
             if (appointment == null)
             {
 
-                throw new Exception("prescription not found");
+                throw new Exception("appointment not found");
             }
             return appointment;
         }
@@ -46,6 +46,12 @@ namespace DocDocGo.Repositories
 
             await _dbcontext.SaveChangesAsync();
 
+            return entity;
+        }
+        public async Task<AppointmentModel> DeleteAsync(AppointmentModel entity)
+        {
+            _dbcontext.Remove(entity);
+            await _dbcontext.SaveChangesAsync();
             return entity;
         }
     }

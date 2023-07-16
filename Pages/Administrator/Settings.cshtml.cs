@@ -40,5 +40,18 @@ namespace DocDocGo.Pages.Administrator
         public void OnPost() 
         { 
         }
+
+        public async Task<IActionResult> LockUserAccountAsync(string userId) //locks a specific user fully out of their account.
+        {
+            var user = await _userManager.FindByIdAsync(userId);
+            if (user != null)
+            {
+                await _userManager.SetLockoutEnabledAsync(user, true);
+                await _userManager.SetLockoutEndDateAsync(user, DateTimeOffset.MaxValue);
+            }
+
+            return RedirectToPage();
+        }
+
     }
 }
