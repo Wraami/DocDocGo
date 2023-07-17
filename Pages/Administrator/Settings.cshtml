@@ -45,15 +45,37 @@
                                     <td>@user.DateOfBirth</td>
                                     <td>@user.PhoneNumber</td>
                                     <td>
+                                    <ul class="list-inline">
+                                        <li class="list-inline-item">
                                         <a asp-page="/Administrator/UpdateUser" asp-route-id="@user.Id" class="btn btn-primary my-2 my-sm-0"
                                            data-toggle="tooltip" data-placement="top" title="Edit">
-                                <i class="bi bi-pencil-outline"></i></a>
+                                        <i class="bi bi-pencil-square"></i>
+                                    </a>
+                                    </li>
+                                        <li class="list-inline-item">
+
+                                    <form asp-page-handler="LockUserAccountAsync" method="post">
+                                        <input type="hidden" name="userId" value="@user.Id" />
+                                        <button type="submit" class="btn btn-danger my-2 my-sm-0" data-toggle="tooltip" data-placement="top" title="Lockout">
+                                            <i class="bi bi-lock"></i>
+                                        </button>
+                                    </form>
+                                        </li>
+
+                                        <li class="list-inline-item">
+                                            <a asp-page="/Administrator/DeleteUser" asp-route-id="@user.Id" class="btn btn-danger my-2 my-sm-0"
+                                               data-toggle="tooltip" data-placement="top" title="Delete">
+                                                <i class="bi bi-trash-fill"></i>
+                                            </a>
+                                            </li>
+                                    </ul>
                                     </td>
                                 </tr>
                             }
                         </tbody>
                     </table>
                 </div>
+
     </div>
     
     <div id="security">
@@ -66,16 +88,7 @@
     </div>
   </div>
 @section Scripts {
-    <script>
-        $(document).ready(function () {
-            $("#searchBox").on("keyup", function () {
-                var searchText = $(this).val().toLowerCase();
-                $("table tbody tr").filter(function () {
-                    $(this).toggle($(this).text().toLowerCase().indexOf(searchText) > -1);
-                });
-            });
-        });
-    </script>
+        <script src="~/js/search.js"></script>@* This is for the calendar js logic, mainly with jquery.*@
     <style>
         .contact-number {
             white-space: nowrap; /*makes sure line breaks aren't enforced on the column.*/

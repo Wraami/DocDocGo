@@ -39,6 +39,7 @@
 </div>
 
 @section Scripts{
+    <partial name="_ValidationScriptsPartial" />
     @await RenderSectionAsync("Scripts", required: false)
     <script>
         $(function () {

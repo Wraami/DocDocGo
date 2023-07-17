@@ -1,6 +1,7 @@
 ﻿@page
 @model DocDocGo.Pages.Patient.IndexModel
 @{
+    ViewData["Title"] = "Patients";
     Layout = "~/Pages/Shared/_DashboardLayout.cshtml";
 
 }
@@ -55,16 +56,8 @@
 </div>
 
 @section Scripts {
-    <script>
-        $(document).ready(function () {
-            $("#searchBox").on("keyup", function () {
-                var searchText = $(this).val().toLowerCase();
-                $("table tbody tr").filter(function () {
-                    $(this).toggle($(this).text().toLowerCase().indexOf(searchText) > -1);
-                });
-            });
-        });
-    </script>
+    <script src="~/js/search.js"></script>@* This is for the calendar js logic, mainly with jquery.*@
+
     <style>
         .contact-number {
             white-space: nowrap; /*makes sure line breaks aren't enforced on the column.*/

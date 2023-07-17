@@ -22,11 +22,15 @@ namespace DocDocGo.Pages
             if (User.Identity.IsAuthenticated)
             {
                 var user = await _userManager.GetUserAsync(User);
-                var roles = await _userManager.GetRolesAsync(user);
 
-                if (roles.Any()) //checks if the user has any roles.
+                if (user != null)
                 {
-                    return RedirectToPage("/Home/Dashboard");
+                    var roles = await _userManager.GetRolesAsync(user);
+
+                    if (roles.Any()) //checks if the user has any roles.
+                    {
+                        return RedirectToPage("/Home/Dashboard");
+                    }
                 }
             }
 

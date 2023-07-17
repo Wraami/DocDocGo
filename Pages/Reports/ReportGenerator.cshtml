@@ -2,25 +2,33 @@
 @model DocDocGo.Pages.Reports.ReportGeneratorModel
 @{
     ViewData["Title"] = "Generate Report";
+    Layout = "~/Pages/Shared/_DashboardLayout.cshtml";
 }
 
 <h1>@ViewData["Title"]</h1>
 
 <div class="container">
-<form method="post">
-            <div class="form-floating">
-                <select id="reportType" name="reportType" class="form-control">
-                    <option value="1">Type 1</option>
-                    <option value="2">Type 2</option>
-                    <option value="3">Type 3</option>
-                </select>
-                <label for="reportType">Report Type:</label>
-            </div>
+    <form method="post">
+        <div class="form-group">
+            <label asp-for="ReportModel.ReportType">Report Type:</label>
+            <select asp-for="ReportModel.ReportType" class="form-control">
+                <option value="1">Type 1</option>
+                <option value="2">Type 2</option>
+                <option value="3">Type 3</option>
+            </select>
+        </div>
+
+        <div class="form-group">
+            <label for="fileName">File Name:</label>
+            <input type="text" id="fileName" name="fileName" class="form-control" />
+        </div>
 
         <div class="form-group" style="margin-top: 10px;">
-        <button type="submit" class="btn btn-primary">Generate Report</button>
-        <a href="ExportToExcel" class="btn btn-secondary">Export to Excel</a>
-        <a href="ExportToCsv" class="btn btn-secondary">Export to CSV</a>
-    </div>
-</form>
+            <button type="submit" asp-page-handler="CreateReport" class="btn btn-primary">Generate Report</button>
+            <button type="submit" asp-page-handler="ExportToExcel" class="btn btn-secondary">Export to Excel</button>
+            <button type="submit"  asp-page-handler="ExportToCSV" class="btn btn-secondary">Export to CSV</button>
+        </div>
+        <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+
+    </form>
 </div>

@@ -2,6 +2,7 @@ using DocDocGo.Models;
 using DocDocGo.Repositories.Interfaces;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.RazorPages;
+using System.Globalization;
 
 namespace DocDocGo.Pages.Appointments
 {
@@ -64,16 +65,7 @@ namespace DocDocGo.Pages.Appointments
                 return NotFound();
             }
 
-            var appointmentData = new
-            {
-                topic = appointment.Topic,
-                patientId = appointment.PatientId,
-                startTime = appointment.StartTime,
-                endTime = appointment.EndTime,
-                notes = appointment.Notes
-            };
-
-            return new JsonResult(appointmentData);
+            return new JsonResult(appointment);
         }
 
 
@@ -92,21 +84,18 @@ namespace DocDocGo.Pages.Appointments
                 }
                 return Page();
             }
-            DateTime selectedDate = NewAppointment.StartTime.Date;
+          
+                var AppointmentData = new AppointmentModel
+                {
+                    StartTime = NewAppointment.StartTime,
+                    PatientId = NewAppointment.PatientId,
+                    EndTime = NewAppointment.EndTime,
+                    Notes = NewAppointment.Notes,
+                    Status = NewAppointment.Status,
+                    Topic = NewAppointment.Topic
+                };
 
-            // Combine the selected date with the time component of the NewAppointment.StartTime property
-            DateTime combinedDateTime = selectedDate.Add(NewAppointment.StartTime.TimeOfDay);
-
-            var AppointmentData = new AppointmentModel
-            { 
-                StartTime = NewAppointment.StartTime,
-                PatientId = NewAppointment.PatientId,
-                EndTime = NewAppointment.EndTime,
-                Notes = NewAppointment.Notes,
-                Status = NewAppointment.Status,
-                Topic = NewAppointment.Topic
-            
-            };
+            // Rest of your code here
 
             if (AppointmentData.StartTime >= AppointmentData.EndTime)
             {

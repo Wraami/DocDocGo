@@ -9,15 +9,23 @@
             // Pass the appointment ID as a parameter.
             var url = '/Appointments/Index?handler=Appointment&id=' + event.id;
 
-            // Make an AJAX request to retrieve the appointment details
             $.ajax({
                 url: url,
                 method: 'GET',
                 success: function (data) {
                     $('#SelectedAppointment_Topic').val(data.topic);
                     $('#SelectedAppointment_PatientId').val(data.patientId);                 
-                    $('#SelectedAppointment_StartTime').val(data.startTime);
-                    $('#SelectedAppointment_EndTime').val(data.endTime);
+
+                    $('#SelectedAppointment_StartTime').datetimepicker({
+                        format: 'YYYY-MM-DD HH:mm',
+                        defaultDate: moment(data.startTime)
+                    });
+
+                    $('#SelectedAppointment_EndTime').datetimepicker({
+                        format: 'YYYY-MM-DD HH:mm',
+                        defaultDate: moment(data.endTime)
+                    });
+
                     $('#notes').val(data.notes);
                     $('#SelectedAppointmentId').val(event.id);
 
@@ -31,6 +39,10 @@
         },
         dayClick: function (date, jsEvent, view) {
             $('#appointment-add').modal('show');
+            $('#appointment-add .datetimepicker').datetimepicker({
+                format: 'YYYY-MM-DD HH:mm',
+                defaultDate: date
+            });
         },
         firstDay: 1,
         events: '/Appointments/Index?handler=Events'

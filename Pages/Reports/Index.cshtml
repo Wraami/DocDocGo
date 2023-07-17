@@ -1,6 +1,7 @@
 ﻿@page
 @model DocDocGo.Pages.Reports.ReportsModel
 @{
+    ViewData["Title"] = "Reports";
     Layout = "~/Pages/Shared/_DashboardLayout.cshtml";
 
 }
@@ -15,9 +16,13 @@
                 <thead>
                     <tr>
                     <th>Report ID</th>
+                        <th>Patient Name</th>
+                        <th>Created On</th>
                     <th>Report Type</th>
-                    <th>Patient Name</th>
                     <th>Has Report Been Printed?</th>
+                        <th>Report Status</th>
+                        <th>Done By Staff member</th>
+
                 </tr>
             </thead>
             <tbody>
@@ -26,8 +31,11 @@
                     <tr>
                         <td>@report.ReportId</td>
                         <td>@report.PatientId</td>
+                        <td>@report.ReportCreationTime</td>
                         <td>@report.ReportType</td>
                         <td>@(report.IsReportPrinted ? "Yes" : "No")</td>
+                        <td>@report.ReportStatus</td>
+                        <td>@report.StaffName</td>
                     </tr>
                 }
             </tbody>
@@ -39,13 +47,5 @@
 
 @section Scripts {
     <script>
-        $(document).ready(function () {
-            $("#searchBox").on("keyup", function () {
-                var searchText = $(this).val().toLowerCase();
-                $("table tbody tr").filter(function () {
-                    $(this).toggle($(this).text().toLowerCase().indexOf(searchText) > -1);
-                });
-            });
-        });
     </script>
 }
