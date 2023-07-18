@@ -5,6 +5,9 @@ using Microsoft.EntityFrameworkCore;
 
 namespace DocDocGo.Repositories
 {
+    /// <summary>
+    /// This would be useful for adding CRUD operations for implementing prescription functionality, but is out of scope for the assignment.
+    /// </summary>   
     public class PrescriptionRepository : IRepository<PrescriptionModel>
     {
         private ApplicationDBContext _dbcontext;

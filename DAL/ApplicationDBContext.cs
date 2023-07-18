@@ -4,7 +4,11 @@ using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore;
 
 namespace DocDocGo.DAL
-{
+{ 
+/// <summary>
+/// Represents the application's database context, extending identitydbcontext.
+/// This context manages all interactions with the database, including authentication and authorization.
+/// </summary>
     public class ApplicationDBContext : IdentityDbContext<UserModel, IdentityRole<int>, int>
     {
         public ApplicationDBContext(DbContextOptions<ApplicationDBContext> options)

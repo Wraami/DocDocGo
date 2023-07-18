@@ -48,7 +48,6 @@ namespace DocDocGo.Pages.Administrator
             existingUser.LastName = ExistingUserModel.LastName;
             existingUser.PhoneNumber = ExistingUserModel.PhoneNumber;
             existingUser.Email = ExistingUserModel.Email;
-            existingUser.Password = ExistingUserModel.Password;
 
 
             await _userManager.UpdateAsync(existingUser);

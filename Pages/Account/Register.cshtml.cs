@@ -25,6 +25,9 @@ namespace DocDocGo.Pages.Account
         [BindProperty]
         public UserModel CredentialModel { get; set; }
 
+        [BindProperty]
+        public PasswordViewModel PWordModel { get; set; }
+
 
         public async Task OnGetAsync()
         {
@@ -45,7 +48,6 @@ namespace DocDocGo.Pages.Account
                     LastName = CredentialModel.LastName,
                     Gender = CredentialModel.Gender,
                     UserName = CredentialModel.Email,
-                    Password = CredentialModel.Password, //Need to refine so no cleartext password is stored, put in seperate viewmodel.
                     CreatedAt = DateTime.Now,
                     AcceptedTerms = CredentialModel.AcceptedTerms
                 };
@@ -55,7 +57,7 @@ namespace DocDocGo.Pages.Account
                     ModelState.AddModelError("ValidationError", "Please accept the terms and conditions");
                     return Page();
                 }
-                var result = await _userManager.CreateAsync(user, user.Password);
+                var result = await _userManager.CreateAsync(user, PWordModel.Password);
 
                 if (result.Succeeded)
                 {

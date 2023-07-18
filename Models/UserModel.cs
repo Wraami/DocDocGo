@@ -3,6 +3,9 @@ using System.ComponentModel.DataAnnotations;
 
 namespace DocDocGo.Models
 {
+    /// <summary>
+    /// represents a user table with custom fields for use with asp.net core scaffolded identity.
+    /// </summary>
     public class UserModel : IdentityUser<int>
     {
         public string FirstName { get; set; }
@@ -10,8 +13,6 @@ namespace DocDocGo.Models
         public string? LastName { get; set; }
         [DataType(DataType.Date)]
         public DateTime? DateOfBirth { get; set; }
-        [DataType(DataType.Password)]
-        public string Password { get; set; }
         public string? Gender { get; set; }
         public DateTime CreatedAt { get; set; }
         public DateTime? LastModifiedAt { get; set; }

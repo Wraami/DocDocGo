@@ -1,4 +1,3 @@
-using DocDocGo.DAL;
 using DocDocGo.Repositories.Interfaces;
 using Microsoft.AspNetCore.Authorization;
 using DocDocGo.Models;
@@ -28,7 +27,6 @@ namespace DocDocGo.Pages.Reports
 
         public async Task<IActionResult> OnPostExportToExcelAsync(int reportId, string fileName)
         {
-            // Retrieve the report from the database
             var report = await _dbContext.GetByIdAsync(reportId);
 
             if (report == null)
@@ -36,7 +34,6 @@ namespace DocDocGo.Pages.Reports
                 return NotFound();
             }
 
-            // Create Excel package
             using (var package = new ExcelPackage())
             {
                 // Create worksheet
@@ -56,7 +53,6 @@ namespace DocDocGo.Pages.Reports
                 worksheet.Cells["E2"].Value = report.StaffName;
                 worksheet.Cells["F2"].Value = report.ReportType;
 
-                // Save the Excel package to a stream
                 var stream = new MemoryStream(package.GetAsByteArray());
 
                 stream.Position = 0;
