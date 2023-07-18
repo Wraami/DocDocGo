@@ -32,7 +32,7 @@ namespace DocDocGo.Pages.Account
 
             if (ModelState.IsValid)
             {
-                var result = await _signInManager.PasswordSignInAsync(CredentialModel.Email, CredentialModel.Password, CredentialModel.RememberMe, lockoutOnFailure: false);
+                var result = await _signInManager.PasswordSignInAsync(CredentialModel.Email, CredentialModel.Password, CredentialModel.RememberMe, lockoutOnFailure: true);
 
                     if (result.Succeeded)
                     {
