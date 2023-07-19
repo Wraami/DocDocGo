@@ -11,17 +11,26 @@ namespace DocDocGo.Pages.Reports
     public class ReportGeneratorModel : PageModel
     {
         private readonly IRepository<ReportModel> _dbContext;
-        
-        public ReportGeneratorModel(IRepository<ReportModel> dbContext)
+        private readonly IRepository<ReportTypeModel> _reportTypeContext;
+        private readonly IRepository<PatientModel> _patientcontext;
+
+        public IEnumerable<PatientModel> Patients { get; set; }
+
+        public ReportGeneratorModel(IRepository<ReportModel> dbContext, IRepository<ReportTypeModel> typeDbContext, IRepository<PatientModel> patientDbContext)
         {
             _dbContext = dbContext;
+            _reportTypeContext = typeDbContext;
+            _patientcontext = patientDbContext;
         }
 
         [BindProperty]
         public ReportModel ReportModel { get; set; }
-       
+        public IEnumerable<ReportTypeModel> ReportTypes { get; set; }
+
         public async Task<IActionResult> OnGetAsync(int reportId)
         {
+            Patients = await _patientcontext.GetAsync();
+            ReportTypes = await _reportTypeContext.GetAsync();
             return Page();
         }
 
@@ -37,7 +46,7 @@ namespace DocDocGo.Pages.Reports
             using (var package = new ExcelPackage())
             {
                 // Create worksheet
-                var worksheet = package.Workbook.Worksheets.Add("Report -");
+                var worksheet = package.Workbook.Worksheets.Add("Report");
 
                 worksheet.Cells["A1"].Value = "Report ID";
                 worksheet.Cells["B1"].Value = "Patient ID";
@@ -48,10 +57,10 @@ namespace DocDocGo.Pages.Reports
 
                 worksheet.Cells["A2"].Value = report.ReportId;
                 worksheet.Cells["B2"].Value = report.PatientId;
-                worksheet.Cells["C2"].Value = report.ReportCreationTime;
-                worksheet.Cells["D2"].Value = report.ReportStatus;
-                worksheet.Cells["E2"].Value = report.StaffName;
-                worksheet.Cells["F2"].Value = report.ReportType;
+                worksheet.Cells["C2"].Value = report.CreatedAt;
+                worksheet.Cells["D2"].Value = report.Status;
+                worksheet.Cells["E2"].Value = report.InitialStaffName;
+                worksheet.Cells["F2"].Value = report.ReportTypeModel;
 
                 var stream = new MemoryStream(package.GetAsByteArray());
 
@@ -62,8 +71,17 @@ namespace DocDocGo.Pages.Reports
             }
         }
 
-        public async Task<IActionResult> OnPostCreateReport(ReportModel report)
+        public async Task<IActionResult> OnPostCreateReportAsync(ReportModel report)
         {
+            if (ModelState.IsValid)
+            {
+                report.CreatedAt = DateTime.Now;
+                report.LastUpdated = DateTime.Now;
+
+                await _dbContext.CreateAsync(report);
+
+                return RedirectToPage("/Reports/Index");
+            }
             return Page();
         }
 

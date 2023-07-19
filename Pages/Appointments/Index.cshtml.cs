@@ -74,14 +74,6 @@ namespace DocDocGo.Pages.Appointments
         {
             if (!ModelState.IsValid)
             {
-                // Get all model state errors
-                var errors = ModelState.Values.SelectMany(v => v.Errors).Select(e => e.ErrorMessage);
-
-                // Log or display the errors
-                foreach (var error in errors)
-                {
-                    Console.WriteLine(error); // Replace with your desired error handling logic
-                }
                 return Page();
             }
           
@@ -95,14 +87,11 @@ namespace DocDocGo.Pages.Appointments
                     Topic = NewAppointment.Topic
                 };
 
-            // Rest of your code here
-
             if (AppointmentData.StartTime >= AppointmentData.EndTime)
             {
                 ModelState.AddModelError("ValidationError", "Appointment starting time must be before end time.");
             }
 
-            // Add the new appointment to the database.
             await _dbContext.CreateAsync(AppointmentData);
 
             return RedirectToPage("/Appointments/Index");

@@ -20,6 +20,7 @@ namespace DocDocGo.DAL
         public DbSet<PatientModel> Patients { get; set; }
         public DbSet<PrescriptionModel> Prescriptions { get; set; }
         public DbSet<ReportModel> Reports { get; set; }
+        public DbSet<ReportTypeModel> ReportTypes { get; set; }
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {

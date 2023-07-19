@@ -9,14 +9,18 @@ namespace DocDocGo.Models
         public int ReportId { get; set; }
         [ForeignKey("Patient")]
         public int PatientId { get; set; }
-        [Required]
-        public string ReportType { get; set;}
-        public bool IsReportPrinted { get; set; }
+        public PatientModel? Patient { get; set; }
+        public string? ReportDescription { get; set; }
+        public string InitialStaffName { get; set; }
         [DataType(DataType.DateTime)]
-        public DateTime ReportCreationTime { get; set; }
-        public string ReportStatus { get; set; }
-        public PatientModel Patient { get; set; }
-
-        public string StaffName { get; set; }
+        public DateTime CreatedAt { get; set; }
+        [DataType(DataType.DateTime)]
+        public DateTime? LastUpdated { get; set; }
+        public string? LastUpdatedBy { get; set; }
+        public string Status { get; set; }
+        public bool IsReportPrinted { get; set; }
+        [ForeignKey("ReportType")]
+        public int? ReportTypeId { get; set; }
+        public ReportTypeModel? ReportTypeModel { get; set; }
     }
 }

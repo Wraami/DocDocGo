@@ -8,13 +8,54 @@
 <h1>@ViewData["Title"]</h1>
 
 <div class="container">
-    <form method="post">
+    <form method="post" asp-page-handler="CreateReport">
         <div class="form-group">
-            <label asp-for="ReportModel.ReportType">Report Type:</label>
-            <select asp-for="ReportModel.ReportType" class="form-control">
-                <option value="1">Type 1</option>
-                <option value="2">Type 2</option>
-                <option value="3">Type 3</option>
+            <label asp-for="ReportModel.ReportId">Report Type:</label>
+            <select asp-for="ReportModel.ReportId" class="form-control">
+                <option value="">-- Select a Template Type --</option>
+                @if (Model.ReportTypes != null)
+                {
+                    @foreach (var reportType in Model.ReportTypes)
+                    {
+                        <option value="@reportType.ReportTypeId">@reportType.TemplateType</option>
+                    }
+                }
+            </select>
+        </div>
+
+        <div class="form-group">
+            <label asp-for="ReportModel.PatientId">Patient ID:</label>
+            <select asp-for="ReportModel.PatientId" class="form-control">
+                <option value="">-- Select Patient --</option>
+                @if (Model.Patients != null)
+                {
+                    @foreach (var patient in Model.Patients)
+                    {
+                        <option value="@patient.PatientId">@($"{patient.FirstName} {patient.LastName}")</option>
+                    }
+                }
+            </select>
+            <span asp-validation-for="ReportModel.PatientId" class="text-danger"></span>
+        </div>
+
+        <div class="form-group">
+            <label asp-for="ReportModel.ReportDescription">Report Description:</label>
+            <input asp-for="ReportModel.ReportDescription" class="form-control" />
+        </div>
+
+        <div class="form-group">
+            <label asp-for="ReportModel.InitialStaffName">Initial Staff Name:</label>
+            <input asp-for="ReportModel.InitialStaffName" class="form-control" />
+        </div>
+
+        <div class="form-group">
+            <label asp-for="ReportModel.Status">Status:</label>
+            <select asp-for="ReportModel.Status" class="form-control">
+                <option value="100 - Created">100 - Created</option>
+                <option value="200 - Checking">200 - Checking</option>
+                <option value="300 - In Progress">300 - In Progress</option>
+                <option value="400 - Completed">400 - Completed</option>
+                <option value="500 - Rejected">500 - Rejected</option>
             </select>
         </div>
 
@@ -26,7 +67,7 @@
         <div class="form-group" style="margin-top: 10px;">
             <button type="submit" asp-page-handler="CreateReport" class="btn btn-primary">Generate Report</button>
             <button type="submit" asp-page-handler="ExportToExcel" class="btn btn-secondary">Export to Excel</button>
-            <button type="submit"  asp-page-handler="ExportToCSV" class="btn btn-secondary">Export to CSV</button>
+            <button type="submit"  asp-page-handler="ExportToCSVAsync" class="btn btn-secondary">Export to CSV</button>
         </div>
         <div asp-validation-summary="ModelOnly" class="text-danger"></div>
 

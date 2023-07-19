@@ -18,6 +18,7 @@ builder.Services.AddScoped<IAppointmentRepository<AppointmentModel>, Appointment
 builder.Services.AddScoped<IRepository<PatientModel>, PatientRepository>();
 builder.Services.AddScoped<IRepository<PrescriptionModel>, PrescriptionRepository>();
 builder.Services.AddScoped<IRepository<ReportModel>, ReportRepository>();
+builder.Services.AddScoped<IRepository<ReportTypeModel>, ReportTypeRepository>();
 
 builder.Services.AddIdentity<UserModel, IdentityRole<int>>(options =>
 {
@@ -72,6 +73,10 @@ using (var scope = app.Services.CreateScope())
     }
 }
 
+/// <summary>
+/// For assigning created users their default roles for the prototype example.
+/// </summary>
+/// 
 using (var scope = app.Services.CreateScope())
 {
     var userManager = scope.ServiceProvider.GetRequiredService<UserManager<UserModel>>();

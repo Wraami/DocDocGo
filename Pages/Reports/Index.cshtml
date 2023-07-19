@@ -18,10 +18,13 @@
                     <th>Report ID</th>
                         <th>Patient Name</th>
                         <th>Created On</th>
+                        <th>Report Description</th>
                     <th>Report Type</th>
                     <th>Has Report Been Printed?</th>
                         <th>Report Status</th>
-                        <th>Done By Staff member</th>
+                        <th>Report Started By Staff member</th>
+                        <th>Last Updated</th> 
+                        <th>Last Updated By</th> 
 
                 </tr>
             </thead>
@@ -31,11 +34,23 @@
                     <tr>
                         <td>@report.ReportId</td>
                         <td>@report.PatientId</td>
-                        <td>@report.ReportCreationTime</td>
-                        <td>@report.ReportType</td>
-                        <td>@(report.IsReportPrinted ? "Yes" : "No")</td>
-                        <td>@report.ReportStatus</td>
-                        <td>@report.StaffName</td>
+                        <td>@report.CreatedAt</td>
+                        <td>@report.ReportDescription</td> <!-- New column -->
+                            <td>
+                                @if (report.ReportTypeModel != null)
+                                {
+                                    @report.ReportTypeModel.TemplateType
+                                }
+                                else
+                                {
+                                    <span>No Report type used</span>
+                                }
+                            </td>
+                            <td>@(report.IsReportPrinted ? "Yes" : "No")</td>
+                        <td>@report.Status</td>
+                        <td>@report.InitialStaffName</td>
+                        <td>@report.LastUpdated</td> <!-- New column -->
+                        <td>@report.LastUpdatedBy</td> <!-- New column -->
                     </tr>
                 }
             </tbody>
