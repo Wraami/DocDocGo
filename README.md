@@ -118,11 +118,9 @@ Press OK.
 
 You now should see the following screen:
 
-![SSMS Final Dialog Screenshot](Instruction-images/startingConnection.png)
+![SSMS Final Dialog Screenshot](Instruction-images/finalDatabaseRestore.png)
 
 Click the "OK" button to initiate the database restore process. The restore progress will be displayed in the Messages tab.
-
-![SSMS Confirmation Screenshot](Instruction-images/startingConnection.png)
 
 
 ### Verify the Restore:
