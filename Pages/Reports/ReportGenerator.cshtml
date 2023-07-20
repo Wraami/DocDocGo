@@ -6,26 +6,28 @@
 }
 
 <h1>@ViewData["Title"]</h1>
+        <div asp-validation-summary="All" class="text-danger"></div>
 
 <div class="container">
-    <form method="post" asp-page-handler="CreateReport">
-        <div class="form-group">
-            <label asp-for="ReportModel.ReportId">Report Type:</label>
-            <select asp-for="ReportModel.ReportId" class="form-control">
-                <option value="">-- Select a Template Type --</option>
-                @if (Model.ReportTypes != null)
-                {
-                    @foreach (var reportType in Model.ReportTypes)
-                    {
-                        <option value="@reportType.ReportTypeId">@reportType.TemplateType</option>
-                    }
-                }
-            </select>
-        </div>
+    <form method="post">
+       <div class="form-group">
+    <label asp-for="NewReportModel.ReportId">Report Type:</label>
+    <select asp-for="NewReportModel.ReportId" class="form-control">
+        <option value="">-- Select a Template Type --</option>
+        @if (Model.ReportTypes != null)
+        {
+            @foreach (var reportType in Model.ReportTypes)
+            {
+                <option value="@reportType.ReportTypeId">@reportType.TemplateType</option>
+            }
+        }
+    </select>
+</div>
+
 
         <div class="form-group">
-            <label asp-for="ReportModel.PatientId">Patient ID:</label>
-            <select asp-for="ReportModel.PatientId" class="form-control">
+            <label asp-for="NewReportModel.PatientId">Patient ID:</label>
+            <select asp-for="NewReportModel.PatientId" class="form-control">
                 <option value="">-- Select Patient --</option>
                 @if (Model.Patients != null)
                 {
@@ -35,22 +37,21 @@
                     }
                 }
             </select>
-            <span asp-validation-for="ReportModel.PatientId" class="text-danger"></span>
+            <span asp-validation-for="NewReportModel.PatientId" class="text-danger"></span>
         </div>
 
         <div class="form-group">
-            <label asp-for="ReportModel.ReportDescription">Report Description:</label>
-            <input asp-for="ReportModel.ReportDescription" class="form-control" />
+            <label asp-for="NewReportModel.ReportDescription">Report Description:</label>
+            <input asp-for="NewReportModel.ReportDescription" class="form-control" />
+        </div>
+        <div class="form-group">
+            <label asp-for="NewReportModel.InitialStaffName">Initial Staff Name:</label>
+            <input asp-for="NewReportModel.InitialStaffName" class="form-control" />
         </div>
 
         <div class="form-group">
-            <label asp-for="ReportModel.InitialStaffName">Initial Staff Name:</label>
-            <input asp-for="ReportModel.InitialStaffName" class="form-control" />
-        </div>
-
-        <div class="form-group">
-            <label asp-for="ReportModel.Status">Status:</label>
-            <select asp-for="ReportModel.Status" class="form-control">
+            <label asp-for="NewReportModel.Status">Status:</label>
+            <select asp-for="NewReportModel.Status" class="form-control">
                 <option value="100 - Created">100 - Created</option>
                 <option value="200 - Checking">200 - Checking</option>
                 <option value="300 - In Progress">300 - In Progress</option>
@@ -59,17 +60,10 @@
             </select>
         </div>
 
-        <div class="form-group">
-            <label for="fileName">File Name:</label>
-            <input type="text" id="fileName" name="fileName" class="form-control" />
-        </div>
-
         <div class="form-group" style="margin-top: 10px;">
             <button type="submit" asp-page-handler="CreateReport" class="btn btn-primary">Generate Report</button>
-            <button type="submit" asp-page-handler="ExportToExcel" class="btn btn-secondary">Export to Excel</button>
-            <button type="submit"  asp-page-handler="ExportToCSVAsync" class="btn btn-secondary">Export to CSV</button>
+            <button type="submit" asp-page-handler="CreateTemplateType" class="btn btn-secondary">Save As Template</button>
         </div>
-        <div asp-validation-summary="ModelOnly" class="text-danger"></div>
 
     </form>
 </div>

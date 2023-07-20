@@ -50,6 +50,8 @@ namespace DocDocGo.Migrations
 
                     b.HasKey("AppointmentId");
 
+                    b.HasIndex("PatientId");
+
                     b.ToTable("Appointments");
                 });
 
@@ -64,10 +66,16 @@ namespace DocDocGo.Migrations
                     b.Property<string>("ContactNumber")
                         .HasColumnType("nvarchar(max)");
 
+                    b.Property<DateTime?>("DateOfBirth")
+                        .HasColumnType("datetime2");
+
                     b.Property<string>("EmailAddress")
                         .HasColumnType("nvarchar(max)");
 
                     b.Property<string>("FirstName")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("Gender")
                         .HasColumnType("nvarchar(max)");
 
                     b.Property<bool>("IsPrivatePatient")
@@ -409,6 +417,17 @@ namespace DocDocGo.Migrations
                     b.HasKey("UserId", "LoginProvider", "Name");
 
                     b.ToTable("AspNetUserTokens", (string)null);
+                });
+
+            modelBuilder.Entity("DocDocGo.Models.AppointmentModel", b =>
+                {
+                    b.HasOne("DocDocGo.Models.PatientModel", "Patient")
+                        .WithMany()
+                        .HasForeignKey("PatientId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.Navigation("Patient");
                 });
 
             modelBuilder.Entity("DocDocGo.Models.PrescriptionModel", b =>

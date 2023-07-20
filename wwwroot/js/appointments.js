@@ -1,4 +1,17 @@
 ﻿$(document).ready(function () {
+    $('#SelectedAppointment_StartTime').datetimepicker({
+        format: 'YYYY-MM-DD HH:mm'
+    });
+
+    $('#SelectedAppointment_EndTime').datetimepicker({
+        format: 'YYYY-MM-DD HH:mm'
+    });
+
+    function updateTimes(data) {
+        $('#SelectedAppointment_StartTime').datetimepicker('date', moment(data.startTime));
+        $('#SelectedAppointment_EndTime').datetimepicker('date', moment(data.endTime));
+    }
+
     $('#calendar').fullCalendar({
         header: {
             left: 'prev, next, today',
@@ -13,6 +26,7 @@
                 url: url,
                 method: 'GET',
                 success: function (data) {
+                    console.log('Data received:', data);
                     $('#SelectedAppointment_Topic').val(data.topic);
                     $('#SelectedAppointment_PatientId').val(data.patientId);                 
 
@@ -26,8 +40,14 @@
                         defaultDate: moment(data.endTime)
                     });
 
-                    $('#notes').val(data.notes);
+                    $('#SelectedAppointment_Status').val(data.status);
+                    $('#SelectedAppointment_Notes').val(data.notes);
+                    console.log('Notes value set:', data.notes);
+                    console.log('Status value set:', data.status);
+
                     $('#SelectedAppointmentId').val(event.id);
+
+                    updateTimes(data);
 
                     var modal = $("#appointment-edit");
                     modal.modal('show');
@@ -39,10 +59,7 @@
         },
         dayClick: function (date, jsEvent, view) {
             $('#appointment-add').modal('show');
-            $('#appointment-add .datetimepicker').datetimepicker({
-                format: 'YYYY-MM-DD HH:mm',
-                defaultDate: date
-            });
+           
         },
         firstDay: 1,
         events: '/Appointments/Index?handler=Events'

@@ -41,7 +41,7 @@
                                     <td>@(patient.IsPrivatePatient ? "Private Healthcare" : "NHS Treatment")</td>
                                     <td>
                                         <a asp-page="/Patient/UpdatePatient" asp-route-id="@patient.PatientId" class="btn btn-primary my-2 my-sm-0"
-                                           data-toggle="tooltip" data-placement="top" title="Edit">
+                                       data-toggle="tooltip" data-placement="top" title="Edit">
                                             <i class="bi bi-pencil-square"></i>
                                         </a>
                                     </td>
@@ -56,7 +56,7 @@
 </div>
 
 @section Scripts {
-    <script src="~/js/search.js"></script>@* This is for the calendar js logic, mainly with jquery.*@
+    <script src="~/js/search.js"></script>@* This is for the searching logic.*@
 
     <style>
         .contact-number {

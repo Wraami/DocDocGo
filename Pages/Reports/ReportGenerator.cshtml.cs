@@ -1,9 +1,8 @@
+using DocDocGo.Models;
 using DocDocGo.Repositories.Interfaces;
 using Microsoft.AspNetCore.Authorization;
-using DocDocGo.Models;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.RazorPages;
-using OfficeOpenXml;
 
 namespace DocDocGo.Pages.Reports
 {
@@ -15,6 +14,7 @@ namespace DocDocGo.Pages.Reports
         private readonly IRepository<PatientModel> _patientcontext;
 
         public IEnumerable<PatientModel> Patients { get; set; }
+        public IEnumerable<ReportTypeModel> ReportTypes { get; set; }
 
         public ReportGeneratorModel(IRepository<ReportModel> dbContext, IRepository<ReportTypeModel> typeDbContext, IRepository<PatientModel> patientDbContext)
         {
@@ -24,9 +24,7 @@ namespace DocDocGo.Pages.Reports
         }
 
         [BindProperty]
-        public ReportModel ReportModel { get; set; }
-        public IEnumerable<ReportTypeModel> ReportTypes { get; set; }
-
+        public ReportModel NewReportModel { get; set; }
         public async Task<IActionResult> OnGetAsync(int reportId)
         {
             Patients = await _patientcontext.GetAsync();
@@ -34,61 +32,43 @@ namespace DocDocGo.Pages.Reports
             return Page();
         }
 
-        public async Task<IActionResult> OnPostExportToExcelAsync(int reportId, string fileName)
-        {
-            var report = await _dbContext.GetByIdAsync(reportId);
-
-            if (report == null)
-            {
-                return NotFound();
-            }
-
-            using (var package = new ExcelPackage())
-            {
-                // Create worksheet
-                var worksheet = package.Workbook.Worksheets.Add("Report");
-
-                worksheet.Cells["A1"].Value = "Report ID";
-                worksheet.Cells["B1"].Value = "Patient ID";
-                worksheet.Cells["C1"].Value = "Created On";
-                worksheet.Cells["D1"].Value = "Reporting Status";
-                worksheet.Cells["E1"].Value = "By Staff Member";
-                worksheet.Cells["F1"].Value = "Report Type";
-
-                worksheet.Cells["A2"].Value = report.ReportId;
-                worksheet.Cells["B2"].Value = report.PatientId;
-                worksheet.Cells["C2"].Value = report.CreatedAt;
-                worksheet.Cells["D2"].Value = report.Status;
-                worksheet.Cells["E2"].Value = report.InitialStaffName;
-                worksheet.Cells["F2"].Value = report.ReportTypeModel;
-
-                var stream = new MemoryStream(package.GetAsByteArray());
-
-                stream.Position = 0;
-
-                // Return the Excel file as a FileStreamResult
-                return File(stream, "application/vnd.openxmlformats-officedocument.spreadsheetml.sheet", $"{fileName}.xlsx"); //uses the entered filename for the worksheet.
-            }
-        }
-
-        public async Task<IActionResult> OnPostCreateReportAsync(ReportModel report)
+        public async Task<IActionResult> OnPostCreateReport()
         {
             if (ModelState.IsValid)
             {
-                report.CreatedAt = DateTime.Now;
-                report.LastUpdated = DateTime.Now;
+               var ReportData = new ReportModel
+                {
+                    ReportDescription = NewReportModel.ReportDescription,
+                    PatientId = NewReportModel.PatientId,
+                    InitialStaffName = NewReportModel.InitialStaffName,
+                    Status = NewReportModel.Status,
+                    CreatedAt = DateTime.Now,
+                    LastUpdated = DateTime.Now
+                };
 
-                await _dbContext.CreateAsync(report);
-
-                return RedirectToPage("/Reports/Index");
+                await _dbContext.CreateAsync(ReportData);
             }
             return Page();
         }
 
-        public async Task<IActionResult> OnPostExportToCSVAsync(ReportModel report)
+        public async Task<IActionResult> OnPostExportToCSV()
         {
             return Page();
         }
+
+        public async Task<IActionResult> OnPostCreateTemplateType(ReportTypeModel reporttype)
+        {
+            if (ModelState.IsValid)
+            {
+                reporttype.ReportTypeCreationTime = DateTime.Now;
+
+                await _reportTypeContext.CreateAsync(reporttype);
+
+                return RedirectToPage("/Reports/ReportType");
+            }
+            return Page();
+        }
+
 
     }
 }

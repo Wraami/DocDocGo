@@ -4,9 +4,11 @@ using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.RazorPages;
 using DocDocGo.Services;
+using Microsoft.AspNetCore.Authorization;
 
 namespace DocDocGo.Pages.Administrator
 {
+    [Authorize(Roles = "Administrator")]
     public class DeleteUserModel : PageModel
     {
         private readonly UserManager<UserModel> _userManager;
@@ -19,6 +21,7 @@ namespace DocDocGo.Pages.Administrator
         }
 
         public UserModel ExistingUserModel { get; set; }
+
 
         public async Task<IActionResult> OnGetAsync(int id)
         {

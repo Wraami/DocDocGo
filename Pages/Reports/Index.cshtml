@@ -15,27 +15,28 @@
             <table class="table table-hover table-bordered table-striped" style="width:100%">
                 <thead>
                     <tr>
-                    <th>Report ID</th>
-                        <th>Patient Name</th>
+                        <th>Report ID</th>
+                        <th>Patient ID</th>
                         <th>Created On</th>
                         <th>Report Description</th>
-                    <th>Report Type</th>
-                    <th>Has Report Been Printed?</th>
+                        <th>Report Type</th>
+                        <th>Has Report Been Printed?</th>
                         <th>Report Status</th>
                         <th>Report Started By Staff member</th>
-                        <th>Last Updated</th> 
-                        <th>Last Updated By</th> 
+                        <th>Last Updated</th>
+                        <th>Last Updated By</th>
+                        <th> Actions </th>
 
-                </tr>
-            </thead>
-            <tbody>
-                @foreach (var report in Model.Reports)
-                {
-                    <tr>
-                        <td>@report.ReportId</td>
-                        <td>@report.PatientId</td>
-                        <td>@report.CreatedAt</td>
-                        <td>@report.ReportDescription</td> <!-- New column -->
+                    </tr>
+                </thead>
+                <tbody>
+                    @foreach (var report in Model.Reports)
+                    {
+                        <tr>
+                            <td>@report.ReportId</td>
+                            <td>@report.PatientId</td>
+                            <td>@report.CreatedAt</td>
+                            <td>@report.ReportDescription</td>
                             <td>
                                 @if (report.ReportTypeModel != null)
                                 {
@@ -47,20 +48,25 @@
                                 }
                             </td>
                             <td>@(report.IsReportPrinted ? "Yes" : "No")</td>
-                        <td>@report.Status</td>
-                        <td>@report.InitialStaffName</td>
-                        <td>@report.LastUpdated</td> <!-- New column -->
-                        <td>@report.LastUpdatedBy</td> <!-- New column -->
-                    </tr>
-                }
-            </tbody>
-        </table>
+                            <td>@report.Status</td>
+                            <td>@report.InitialStaffName</td>
+                            <td>@report.LastUpdated</td>
+                            <td>@report.LastUpdatedBy</td>
+                            <td>
+    <a asp-page="/Reports/ExportReport" asp-route-id="@report.ReportId" class="btn btn-primary my-2 my-sm-0"     
+    data-toggle="tooltip" data-placement="top" title="Export">
+                                    <i class="bi bi-arrow-bar-up"></i>
+                                </a>
+                            </td>
+                        </tr>
+                    }
+                </tbody>
+            </table>
 
-    </div>
+        </div>
     </div>
 </div>
 
 @section Scripts {
-    <script>
-    </script>
+    <script src="~/js/search.js"></script>@* This is for the searching logic.*@
 }

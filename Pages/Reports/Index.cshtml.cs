@@ -1,6 +1,7 @@
 using DocDocGo.Models;
 using DocDocGo.Repositories.Interfaces;
 using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.RazorPages;
 
 namespace DocDocGo.Pages.Reports
@@ -21,5 +22,6 @@ namespace DocDocGo.Pages.Reports
             Reports = await _dbcontext.GetAsync();
 
         }
+
     }
 }

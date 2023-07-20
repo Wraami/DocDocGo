@@ -38,21 +38,17 @@ namespace DocDocGo.Pages.Appointments
         public async Task<IActionResult> OnGetEvents()
         {
             IEnumerable<AppointmentModel> appointments = await _dbContext.GetAsync();
-
-            var eventList = new List<object>();
-            foreach (var appointment in appointments)
-            {
-
-                var eventData = new
+     
+                var eventList = appointments.Select(appointment => new
                 {
                     id = appointment.AppointmentId,
                     title = appointment.Topic,
                     start = appointment.StartTime,
-                    end = appointment.EndTime
-                };
+                    end = appointment.EndTime,
+                    status = appointment.Status,
+                    notes = appointment.Notes
+                }).ToList();
 
-                eventList.Add(eventData);
-            }
             return new JsonResult(eventList);
         }
 
@@ -63,6 +59,11 @@ namespace DocDocGo.Pages.Appointments
             if (appointment == null)
             {
                 return NotFound();
+            }
+           
+            if (string.IsNullOrEmpty(appointment.Notes))
+            {
+                appointment.Notes = string.Empty;
             }
 
             return new JsonResult(appointment);

@@ -1,45 +1,46 @@
 ﻿@page
 @model DocDocGo.Pages.Appointments.IndexModel
 @{
+    ViewData["Title"] = "Appointments";
     Layout = "~/Pages/Shared/_DashboardLayout.cshtml";
 }
 
-  <section>
-<div class="container">
-    <div id="calendar"></div>
-</div>
+<section>
+    <div class="container">
+        <div id="calendar"></div>
+    </div>
     <!-- Add Appointment Modal -->
     <div class="modal fade" id="appointment-add">
         <div class="modal-dialog">
-       <form method="post" asp-page-handler="AddAppointment">
-            <div class="modal-content">
-                <div class="modal-header">
-                    <h4 class="modal-title">Add An Appointment</h4>
-                    <button type="button" id="closeBtn" class="close" data-dismiss="modal">&times;</button>
-                </div>
-                <div class="modal-body">
+            <form method="post" asp-page-handler="AddAppointment">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <h4 class="modal-title">Add An Appointment</h4>
+                        <button type="button" id="closeBtn" class="close" data-dismiss="modal">&times;</button>
+                    </div>
+                    <div class="modal-body">
                         <div class="form-floating">
                             <input type="text" class="form-control" asp-for="NewAppointment.Topic">
                             <label asp-for="NewAppointment.Topic" class="form-label"></label>
-                           <span asp-validation-for="NewAppointment.Topic" class="text-danger"></span>
+                            <span asp-validation-for="NewAppointment.Topic" class="text-danger"></span>
                         </div>
 
                         <br>
-                         <div class="form-group">
-<label asp-for="NewAppointment.PatientId" class="control-label">Patient:</label>
-<select asp-for="NewAppointment.PatientId" class="form-control">
-    <option value="">-- Select Patient --</option>
-    @if (Model.Patients != null)
-    {
-        @foreach (var patient in Model.Patients)
-        {
-            <option value="@patient.PatientId">@($"{patient.FirstName} {patient.LastName}")</option>
-        }
-    }
-</select>
-<span asp-validation-for="NewAppointment.PatientId" class="text-danger"></span>
-</div>
-<br />
+                        <div class="form-group">
+                            <label asp-for="NewAppointment.PatientId" class="control-label">Patient:</label>
+                            <select asp-for="NewAppointment.PatientId" class="form-control">
+                                <option value="">-- Select Patient --</option>
+                                @if (Model.Patients != null)
+                                {
+                                    @foreach (var patient in Model.Patients)
+                                    {
+                                        <option value="@patient.PatientId">@($"{patient.FirstName} {patient.LastName}")</option>
+                                    }
+                                }
+                            </select>
+                            <span asp-validation-for="NewAppointment.PatientId" class="text-danger"></span>
+                        </div>
+                        <br />
                         <div class="form-group row">
                             <label asp-for="NewAppointment.StartTime" class="col-sm-3 col-form-label">Start Time:</label>
                             <div class="col-sm-9">
@@ -52,71 +53,71 @@
                                 <input class="form-control datetimepicker" asp-for="NewAppointment.EndTime">
                             </div>
                         </div>
-                    <br>
-                      <div class="form-floating">
+                        <br>
+                        <div class="form-floating">
                             <textarea id="notes" class="form-control" asp-for="NewAppointment.Notes"></textarea>
                             <label asp-for="NewAppointment.Notes" class="form-label"></label>
                             <span asp-validation-for="NewAppointment.Notes" class="text-danger"></span>
                         </div>
-                    <div class="form-group">
-    <label asp-for="NewAppointment.Status" class="control-label">Status:</label>
-    <select asp-for="NewAppointment.Status" class="form-control">
-<option value="100 - Scheduled">100 - Scheduled</option>
-<option value="200 - Confirmed">200 - Confirmed</option>
-<option value="300 - Arrived">300 - Arrived</option>
-<option value="400 - In Progress">400 - In Progress</option>
-<option value="500 - Completed">500 - Completed</option>
-<option value="600 - Rescheduled">600 - Rescheduled</option>
-<option value="700 - Canceled">700 - Canceled</option>
-<option value="800 - No-show">800 - No-show</option>
-<option value="900 - Unscheduled">900 - Unscheduled</option>
+                        <div class="form-group">
+                            <label asp-for="NewAppointment.Status" class="control-label">Status:</label>
+                            <select asp-for="NewAppointment.Status" class="form-control">
+                                <option value="100 - Scheduled">100 - Scheduled</option>
+                                <option value="200 - Confirmed">200 - Confirmed</option>
+                                <option value="300 - Arrived">300 - Arrived</option>
+                                <option value="400 - In Progress">400 - In Progress</option>
+                                <option value="500 - Completed">500 - Completed</option>
+                                <option value="600 - Rescheduled">600 - Rescheduled</option>
+                                <option value="700 - Canceled">700 - Canceled</option>
+                                <option value="800 - No-show">800 - No-show</option>
+                                <option value="900 - Unscheduled">900 - Unscheduled</option>
 
-    </select>
-    <span asp-validation-for="NewAppointment.Status" class="text-danger"></span>
-</div>
-                </div>
+                            </select>
+                            <span asp-validation-for="NewAppointment.Status" class="text-danger"></span>
+                        </div>
+                    </div>
 
-                <div class="modal-footer">
-                    <button type="button" id="maincloseBtn" class="btn btn-secondary" data-dismiss="modal">Close</button>
-                    <button type="submit" class="btn btn-success">Add Appointment</button>
+                    <div class="modal-footer">
+                        <button type="button" id="maincloseBtn" class="btn btn-secondary" data-dismiss="modal">Close</button>
+                        <button type="submit" class="btn btn-success">Add Appointment</button>
+                    </div>
                 </div>
-            </div>
-          </form>
+            </form>
         </div>
     </div>
 
     <!-- Edit / Update Appointment Modal -->
 
-<div class="modal fade" id="appointment-edit">
-<div class="modal-dialog">
+    <div class="modal fade" id="appointment-edit">
+        <div class="modal-dialog">
             <form method="post">
-    <div class="modal-content">
-        <div class="modal-header">
-                <h4 class="modal-title">Edit Appointment</h4>
-                <button type="button" id="closeSelectedBtn" class="close" data-dismiss="modal">&times;</button>
-            </div>
-            <div class="modal-body">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <h4 class="modal-title">Edit Appointment</h4>
+                        <button type="button" id="closeSelectedBtn" class="close" data-dismiss="modal">&times;</button>
+                    </div>
+                    <div class="modal-body">
                         <div class="form-floating">
                             <input type="text" class="form-control" asp-for="SelectedAppointment.Topic">
                             <label asp-for="SelectedAppointment.Topic" class="form-label"></label>
                             <span asp-validation-for="SelectedAppointment.Topic" class="text-danger"></span>
                         </div>
                         <br>
- <div class="form-group">
-    <label asp-for="SelectedAppointment.PatientId" class="control-label">Patient:</label>
-    <select asp-for="SelectedAppointment.PatientId" class="form-control">
-        <option value="">-- Select Patient --</option>
-       @if (Model.Patients != null)
-    {
-        @foreach (var patient in Model.Patients)
-        {
-            <option value="@patient.PatientId">@($"{patient.FirstName} {patient.LastName}")</option>
-        }
-    }
-    </select>
-    <span asp-validation-for="SelectedAppointment.PatientId" class="text-danger"></span>
-</div>
-<br />
+                        <div class="form-group">
+                            <label asp-for="SelectedAppointment.PatientId" class="control-label">Patient:</label>
+                            <select asp-for="SelectedAppointment.PatientId" class="form-control">
+                                <option value="">-- Select Patient --</option>
+                                @if (Model.Patients != null)
+                                {
+                                    @foreach (var patient in Model.Patients)
+                                    {
+                                        <option value="@patient.PatientId">@($"{patient.FirstName} {patient.LastName}")</option>
+                                    }
+                                }
+                            </select>
+                            <span asp-validation-for="SelectedAppointment.PatientId" class="text-danger"></span>
+                        </div>
+                        <br />
 
                         <div class="form-group row">
                             <label asp-for="SelectedAppointment.StartTime" class="col-sm-3 col-form-label">Start Time:</label>
@@ -128,48 +129,50 @@
                             <label asp-for="SelectedAppointment.EndTime" class="col-sm-3 col-form-label">End Time:</label>
                             <div class="col-sm-9">
                                 <input class="form-control datetimepicker" asp-for="SelectedAppointment.EndTime">
-                          </div>
+                            </div>
                         </div>
                         <br>
                         <div class="form-floating">
-                            <textarea id="notes" class="form-control" asp-for="SelectedAppointment.Notes"></textarea>
+                            <textarea class="form-control" asp-for="SelectedAppointment.Notes"></textarea>
                             <label asp-for="SelectedAppointment.Notes" class="form-label"></label>
                             <span asp-validation-for="SelectedAppointment.Notes" class="text-danger"></span>
                         </div>
                         <div class="form-group">
-    <label asp-for="SelectedAppointment.Status" class="control-label">Status:</label>
-    <select asp-for="SelectedAppointment.Status" class="form-control">
-<option value="100 - Scheduled">100 - Scheduled</option>
-<option value="200 - Confirmed">200 - Confirmed</option>
-<option value="300 - Arrived">300 - Arrived</option>
-<option value="400 - In Progress">400 - In Progress</option>
-<option value="500 - Completed">500 - Completed</option>
-<option value="600 - Rescheduled">600 - Rescheduled</option>
-<option value="700 - Canceled">700 - Canceled</option>
-<option value="800 - No-show">800 - No-show</option>
-<option value="900 - Unscheduled">900 - Unscheduled</option>
+                            <label asp-for="SelectedAppointment.Status" class="control-label">Status:</label>
+                            <select asp-for="SelectedAppointment.Status" class="form-control">
+                                <option value="100 - Scheduled">100 - Scheduled</option>
+                                <option value="200 - Confirmed">200 - Confirmed</option>
+                                <option value="300 - Arrived">300 - Arrived</option>
+                                <option value="400 - In Progress">400 - In Progress</option>
+                                <option value="500 - Completed">500 - Completed</option>
+                                <option value="600 - Rescheduled">600 - Rescheduled</option>
+                                <option value="700 - Canceled">700 - Canceled</option>
+                                <option value="800 - No-show">800 - No-show</option>
+                                <option value="900 - Unscheduled">900 - Unscheduled</option>
 
-    </select>
-    <span asp-validation-for="SelectedAppointment.Status" class="text-danger"></span>
-</div>
-            </div>
-            <div class="modal-footer">
-                <button type="button" id="maincloseSelectedBtn" class="btn btn-secondary" data-dismiss="modal">Close</button>
-                <button type="submit" class="btn btn-success"
-                        asp-page-handler="UpdateAppointment"
->Update Appointment</button>
-        <button type="submit" class="btn btn-danger"
-        asp-page-handler="DeleteAppointment"
-        >Delete Appointment</button>
-    </div>
-            </div>
-                        <input type="hidden" asp-for="SelectedAppointmentId" />
+                            </select>
+                            <span asp-validation-for="SelectedAppointment.Status" class="text-danger"></span>
+                        </div>
+                    </div>
+                    <div class="modal-footer">
+                        <button type="button" id="maincloseSelectedBtn" class="btn btn-secondary" data-dismiss="modal">Close</button>
+                        <button type="submit" class="btn btn-success"
+                                asp-page-handler="UpdateAppointment">
+                            Update Appointment
+                        </button>
+                        <button type="submit" class="btn btn-danger"
+                                asp-page-handler="DeleteAppointment">
+                            Delete Appointment
+                        </button>
+                    </div>
+                </div>
+                <input type="hidden" asp-for="SelectedAppointmentId" />
             </form>
+        </div>
     </div>
-</div>
 </section>
 
 @section Scripts {
 
-        <script src="~/js/appointments.js"></script>@* This is for the calendar js logic, mainly with jquery.*@
+    <script src="~/js/appointments.js"></script>@* This is for the calendar js logic, mainly with jquery.*@
 }
