@@ -3,6 +3,7 @@ using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Identity.UI.Services;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.RazorPages;
+using Microsoft.EntityFrameworkCore;
 
 namespace DocDocGo.Pages.Administrator
 {
@@ -10,15 +11,19 @@ namespace DocDocGo.Pages.Administrator
     {
         private readonly UserManager<UserModel> _userManager;
         private readonly IEmailSender _emailSender;
-
-        public UpdateUserModel(UserManager<UserModel> userManager, IEmailSender emailSender)
+        private readonly RoleManager<IdentityRole<int>> _roleManager;
+        public List<IdentityRole<int>> AllRoles { get; set; }
+        public UpdateUserModel(UserManager<UserModel> userManager, IEmailSender emailSender, RoleManager<IdentityRole<int>> roleManager)
         {
             _userManager = userManager;
             _emailSender = emailSender;
+            _roleManager = roleManager;
         }
 
         [BindProperty]
         public UserModel ExistingUserModel { get; set; } = default!;
+        [BindProperty]
+        public string SelectedRole { get; set; }
 
         public async Task<IActionResult> OnGetAsync(int id)
         {
@@ -28,7 +33,13 @@ namespace DocDocGo.Pages.Administrator
             {
                 return NotFound();
             }
-                return Page();
+            var userRoles = await _userManager.GetRolesAsync(ExistingUserModel);
+
+            AllRoles = await _roleManager.Roles.ToListAsync();
+            
+            SelectedRole = userRoles.FirstOrDefault();
+
+            return Page();
         }
 
         public async Task<IActionResult> OnPostAsync()
@@ -51,8 +62,18 @@ namespace DocDocGo.Pages.Administrator
 
 
             await _userManager.UpdateAsync(existingUser);
+            
+            if (!string.IsNullOrEmpty(SelectedRole))
+            {
+                var role = await _roleManager.FindByNameAsync(SelectedRole);
+               
+                if (role != null)
+                {                    
+                    await _userManager.AddToRoleAsync(existingUser, SelectedRole);
+                }
 
-            return RedirectToPage("/Patient/Index");
+            }
+            return RedirectToPage("/Administrator/Settings");
 
         }
 

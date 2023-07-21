@@ -4,6 +4,7 @@ using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Identity.UI.Services;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.RazorPages;
+using Microsoft.EntityFrameworkCore;
 
 namespace DocDocGo.Pages.Administrator
 {
@@ -11,21 +12,18 @@ namespace DocDocGo.Pages.Administrator
     public class SettingsModel : PageModel
     {
         private readonly UserManager<UserModel> _userManager;
-        private readonly SignInManager<UserModel> _signInManager;
         private readonly IEmailSender _emailSender;
-
         public IEnumerable<UserModel> Users { get; set; }
 
-        public SettingsModel(UserManager<UserModel> userManager, SignInManager<UserModel> signInManager, IEmailSender emailSender)
+        public SettingsModel(UserManager<UserModel> userManager, IEmailSender emailSender)
         {
             _userManager = userManager;
-            _signInManager = signInManager;
             _emailSender = emailSender;
         }
 
         public async Task<IActionResult> OnGet()
         {
-            await OnGetUsersWithRoleAsync("Staff");
+            Users = await _userManager.Users.ToListAsync();
             return Page();
         }
 

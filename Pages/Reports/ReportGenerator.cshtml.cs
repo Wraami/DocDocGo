@@ -25,10 +25,24 @@ namespace DocDocGo.Pages.Reports
 
         [BindProperty]
         public ReportModel NewReportModel { get; set; }
+
+        public ReportTypeModel SelectedReportType { get; set; }
+
         public async Task<IActionResult> OnGetAsync(int reportId)
         {
             Patients = await _patientcontext.GetAsync();
             ReportTypes = await _reportTypeContext.GetAsync();
+
+            if (reportId != 0)
+            {
+                SelectedReportType = ReportTypes.FirstOrDefault(rt => rt.ReportTypeId == reportId);
+                if (SelectedReportType != null)
+                {
+                    NewReportModel.ReportId = SelectedReportType.ReportTypeId;
+                    NewReportModel.ReportDescription = SelectedReportType.TemplateType;
+                }
+            }
+
             return Page();
         }
 
@@ -51,16 +65,13 @@ namespace DocDocGo.Pages.Reports
             return Page();
         }
 
-        public async Task<IActionResult> OnPostExportToCSV()
-        {
-            return Page();
-        }
-
         public async Task<IActionResult> OnPostCreateTemplateType(ReportTypeModel reporttype)
         {
+            reporttype.TemplateType = NewReportModel.ReportDescription;
+            reporttype.ReportTypeCreationTime = DateTime.Now;
+
             if (ModelState.IsValid)
             {
-                reporttype.ReportTypeCreationTime = DateTime.Now;
 
                 await _reportTypeContext.CreateAsync(reporttype);
 
