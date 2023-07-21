@@ -56,11 +56,11 @@ One of the noteworthy additions to the system is the integration of ASP.NET Core
 
 ### Staff Management:
 - Maintain a database of doctors, nurses, and other personnel.
--Track their contact information, roles, et cetera via an administrative portal.
+- Track their contact information, roles and other information via an administrative portal.
 
 ### Administrative Security:
-- Manage users with features from ASP.NET core identity, such as locking out users out of their accounts, 
-- reassigning roles for personnel and resetting passwords to enhance security.
+- Manage users with features from ASP.NET core identity.
+- Reassign roles for personnel, lock users out of accounts and other features to enhance security.
 
 ### Reporting And Exporting:
 - Allows for the generation of customizable reports based off of a wide variety of expected patient information
