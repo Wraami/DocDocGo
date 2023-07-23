@@ -46,7 +46,9 @@ namespace DocDocGo.Pages.Patient
             existingPatient.FirstName = ExistingPatientModel.FirstName;
             existingPatient.LastName = ExistingPatientModel.LastName;
             existingPatient.ContactNumber = ExistingPatientModel.ContactNumber;
+            existingPatient.Gender = ExistingPatientModel.Gender;
             existingPatient.EmailAddress = ExistingPatientModel.EmailAddress;
+            existingPatient.DateOfBirth = ExistingPatientModel.DateOfBirth;
             existingPatient.IsPrivatePatient = ExistingPatientModel.IsPrivatePatient;
 
 

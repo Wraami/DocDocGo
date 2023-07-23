@@ -1,5 +1,6 @@
 using DocDocGo.Models;
 using DocDocGo.ViewModels;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Identity.UI.Services;
 using Microsoft.AspNetCore.Mvc;
@@ -7,8 +8,9 @@ using Microsoft.AspNetCore.Mvc.RazorPages;
 using Microsoft.AspNetCore.WebUtilities;
 using System.Text;
 
-namespace DocDocGo.Pages.Account
+namespace DocDocGo.Pages.Administrator
 {
+    [Authorize(Roles = "Administrator")]
     public class RegisterModel : PageModel
     {
         private readonly UserManager<UserModel> _userManager;
@@ -52,7 +54,7 @@ namespace DocDocGo.Pages.Account
                     AcceptedTerms = CredentialModel.AcceptedTerms
                 };
 
-                if(!user.AcceptedTerms)
+                if (!user.AcceptedTerms)
                 {
                     ModelState.AddModelError("ValidationError", "Please accept the terms and conditions");
                     return Page();
@@ -69,7 +71,7 @@ namespace DocDocGo.Pages.Account
                     var callbackUrl = Url.Page(
                         "/Account/ConfirmEmail",
                         pageHandler: null,
-                        values: new { userId, code},
+                        values: new { userId, code },
                         protocol: Request.Scheme);
 
                     //Not needed below for purpose of assignment, but if you wanted to configure your own smtp port settings you could

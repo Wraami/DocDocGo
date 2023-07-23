@@ -145,7 +145,8 @@ Password: Password123-_
 ### Staff member:
 Email: pavel.sanjah-staff@hospitaltrust.com
 
-Password: Password123-_
+Password: Password
+23-_
 
 
 ## License

@@ -1,4 +1,5 @@
 using DocDocGo.Models;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Identity.UI.Services;
 using Microsoft.AspNetCore.Mvc;
@@ -7,12 +8,14 @@ using Microsoft.EntityFrameworkCore;
 
 namespace DocDocGo.Pages.Administrator
 {
+    [Authorize(Roles = "Administrator")]
     public class UpdateUserModel : PageModel
     {
         private readonly UserManager<UserModel> _userManager;
         private readonly IEmailSender _emailSender;
         private readonly RoleManager<IdentityRole<int>> _roleManager;
         public List<IdentityRole<int>> AllRoles { get; set; }
+
         public UpdateUserModel(UserManager<UserModel> userManager, IEmailSender emailSender, RoleManager<IdentityRole<int>> roleManager)
         {
             _userManager = userManager;
@@ -57,9 +60,11 @@ namespace DocDocGo.Pages.Administrator
 
             existingUser.FirstName = ExistingUserModel.FirstName;
             existingUser.LastName = ExistingUserModel.LastName;
-            existingUser.PhoneNumber = ExistingUserModel.PhoneNumber;
             existingUser.Email = ExistingUserModel.Email;
-
+            existingUser.PhoneNumber = ExistingUserModel.PhoneNumber;
+            existingUser.Gender = ExistingUserModel.Gender;
+            existingUser.DateOfBirth = ExistingUserModel.DateOfBirth;
+            existingUser.TwoFactorEnabled = existingUser.TwoFactorEnabled;
 
             await _userManager.UpdateAsync(existingUser);
             
