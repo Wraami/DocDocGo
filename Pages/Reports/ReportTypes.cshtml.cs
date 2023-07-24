@@ -7,7 +7,6 @@ using Microsoft.AspNetCore.Mvc.RazorPages;
 namespace DocDocGo.Pages.Reports
 {
     [Authorize]
-
     public class ReportTypesModel : PageModel
     {
         private IRepository<ReportTypeModel> _dbcontext;

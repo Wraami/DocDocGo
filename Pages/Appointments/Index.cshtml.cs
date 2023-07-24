@@ -1,11 +1,13 @@
 using DocDocGo.Models;
 using DocDocGo.Repositories.Interfaces;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.RazorPages;
 using System.Globalization;
 
 namespace DocDocGo.Pages.Appointments
 {
+    [Authorize]
     public class IndexModel : PageModel
     {
         private readonly IAppointmentRepository<AppointmentModel> _dbContext;

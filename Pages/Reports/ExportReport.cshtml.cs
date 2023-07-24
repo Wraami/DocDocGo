@@ -1,11 +1,13 @@
 using ClosedXML.Excel;
 using DocDocGo.Models;
 using DocDocGo.Repositories.Interfaces;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.RazorPages;
 
 namespace DocDocGo.Pages.Reports
 {
+    [Authorize]
     public class ExportReportModel : PageModel
     {
         private readonly IRepository<ReportModel> _dbContext;

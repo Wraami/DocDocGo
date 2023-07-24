@@ -1,11 +1,13 @@
 using DocDocGo.Models;
 using DocDocGo.Repositories.Interfaces;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.RazorPages;
 using Microsoft.EntityFrameworkCore;
 
 namespace DocDocGo.Pages.Patient
 {
+    [Authorize]
     public class UpdatePatientModel : PageModel
     {
         private readonly IRepository<PatientModel> _dbContext;

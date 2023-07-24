@@ -2,9 +2,11 @@ using Microsoft.AspNetCore.Mvc;
 using DocDocGo.Models;
 using Microsoft.AspNetCore.Mvc.RazorPages;
 using DocDocGo.Repositories.Interfaces;
+using Microsoft.AspNetCore.Authorization;
 
 namespace DocDocGo.Pages.Patient
 {
+    [Authorize]
     public class AddPatientModel : PageModel
     {
         private readonly IRepository<PatientModel> _dbContext;
@@ -29,18 +31,20 @@ namespace DocDocGo.Pages.Patient
             {
                 return Page();
             }
-                var newPatient = new PatientModel
-                {
-                   FirstName = NewPatientModel.FirstName, 
-                    LastName = NewPatientModel.LastName, 
-                    ContactNumber = NewPatientModel.ContactNumber, 
-                    EmailAddress = NewPatientModel.EmailAddress,  
-                    IsPrivatePatient = NewPatientModel.IsPrivatePatient
+            var newPatient = new PatientModel
+            {
+                FirstName = NewPatientModel.FirstName,
+                LastName = NewPatientModel.LastName,
+                ContactNumber = NewPatientModel.ContactNumber,
+                EmailAddress = NewPatientModel.EmailAddress,
+                Gender = NewPatientModel.Gender,
+                DateOfBirth = NewPatientModel.DateOfBirth,
+                IsPrivatePatient = NewPatientModel.IsPrivatePatient
                 };
 
                 var result = await _dbContext.CreateAsync(newPatient);
 
-            return Page();
+            return RedirectToPage("/Patient/Index");
         }
     }
 }

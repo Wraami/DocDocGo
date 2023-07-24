@@ -7,7 +7,7 @@ using DocDocGo.Repositories.Interfaces;
 namespace DocDocGo.Pages.Reports
 {
 
-    [Authorize(Roles = "Administrator")]
+    [Authorize]
     public class UpdateReportModel : PageModel
     {
 
