@@ -7,6 +7,9 @@ using System.Threading.Tasks;
 
 namespace DocDocGo.Services
 {
+    /// <summary>
+    /// You could implement this with your own values to test the email service :)
+    /// </summary>
     public class EmailSender : IEmailSender
     {
         private readonly ILogger<EmailSender> _logger;
@@ -14,6 +17,7 @@ namespace DocDocGo.Services
         private readonly int _smtpPort = 587;
         private readonly string _smtpUsername= "Sami";
         private readonly string _smtpPassword = "Password123-_";
+        
         public EmailSender(ILogger<EmailSender> logger)
         {
             _logger = logger;
@@ -23,6 +27,7 @@ namespace DocDocGo.Services
             _smtpUsername = "dummy-username";
             _smtpPassword = "dummy-password";
         }
+
         public async Task SendEmailAsync(string toEmail, string subject, string message)
         {
             try
@@ -46,6 +51,7 @@ namespace DocDocGo.Services
                     _logger.LogInformation($"Email to {toEmail} sent successfully!");
                 }
             }
+
             catch (Exception ex)
             {
                 _logger.LogError($"Failed to send email to {toEmail}. Error: {ex.Message}");

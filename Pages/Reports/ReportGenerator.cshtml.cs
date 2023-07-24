@@ -61,6 +61,8 @@ namespace DocDocGo.Pages.Reports
                 };
 
                 await _dbContext.CreateAsync(ReportData);
+                return RedirectToPage("/Reports/Index");
+
             }
             return Page();
         }

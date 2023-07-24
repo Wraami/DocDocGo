@@ -130,7 +130,9 @@ Once the restore process is complete, refresh the server instance and expand the
 If you changed the DB name on restore, be sure to update this in the 'HospitalManagementSQLConnection' connection string of the project contained within the appsettings.json.
 
 You should now have successfully restored the database from the .bak file, and the DocDocGo application should be able to start and use the restored database for its operations.	
-	
+
+Please note that if you encounter any problems during the restore process, check if the database already exists, and ensure it is taken offline before starting the restore. You can do this by right-clicking the database and going to Tasks > Take Offline and dropping all active connections.
+
 ## Usage
 
 Access the application by navigating to the localhost in your web browser.
@@ -145,8 +147,7 @@ Password: Password123-_
 ### Staff member:
 Email: pavel.sanjah-staff@hospitaltrust.com
 
-Password: Password
-23-_
+Password: Password123-_
 
 
 ## License

@@ -20,6 +20,8 @@ namespace DocDocGo.Pages.Reports
 
         [BindProperty(SupportsGet = true)]
         public int Id { get; set; }
+
+        [BindProperty]
         public string fileName { get; set; }
 
         public async Task<IActionResult> OnGetAsync()
@@ -48,7 +50,6 @@ namespace DocDocGo.Pages.Reports
                 ModelState.AddModelError("File Error", "Please enter a valid file name!");
                 return Page();
             }
-
             using (var workbook = new XLWorkbook())
             {
                 var worksheet = workbook.Worksheets.Add("Report");
@@ -81,8 +82,13 @@ namespace DocDocGo.Pages.Reports
 
                 stream.Position = 0;
 
-                // Return the Excel file as a FileStreamResult
-                return File(stream, "application/vnd.openxmlformats-officedocument.spreadsheetml.sheet", $"{fileName}.xlsx");
+                report.IsReportPrinted = true;
+
+                await _dbContext.UpdateAsync(report);
+
+                // return the Excel file as a FileStreamResult
+
+            return File(stream, "application/vnd.openxmlformats-officedocument.spreadsheetml.sheet", $"{fileName}.xlsx");
             }
         }
     }
