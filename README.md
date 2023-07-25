@@ -135,19 +135,22 @@ Please note that if you encounter any problems during the restore process, check
 
 ## Usage
 
-Access the application by navigating to the localhost in your web browser.
+Access the application by starting the project with Visual Studio and navigating to the <ins>[application URL](https://localhost:7170)</ins> using your web browser.
 
-Use the provided login credentials to access different roles (admin, staff).
+Use the provided login credentials to access the different roles (admin, staff).
 	
 ### Administrator:
+  ```sh
 Email: sarah-admin@hospitaltrust.com
 
 Password: Password123-_
-	
+```
 ### Staff member:
+  ```sh
 Email: pavel.sanjah-staff@hospitaltrust.com
 
 Password: Password123-_
+```
 
 
 ## License
