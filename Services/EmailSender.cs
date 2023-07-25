@@ -1,9 +1,7 @@
 ﻿using Microsoft.AspNetCore.Identity.UI.Services;
-using Microsoft.Extensions.Logging;
-using System;
+using Microsoft.Extensions.Options;
 using System.Net;
 using System.Net.Mail;
-using System.Threading.Tasks;
 
 namespace DocDocGo.Services
 {
@@ -13,33 +11,26 @@ namespace DocDocGo.Services
     public class EmailSender : IEmailSender
     {
         private readonly ILogger<EmailSender> _logger;
-        private readonly string _smtpServer = "new server";
-        private readonly int _smtpPort = 587;
-        private readonly string _smtpUsername= "Sami";
-        private readonly string _smtpPassword = "Password123-_";
-        
-        public EmailSender(ILogger<EmailSender> logger)
+        private readonly SmtpSettings _smtpSettings;
+
+        public EmailSender(ILogger<EmailSender> logger, IOptions<SmtpSettings> smtpSettings)
         {
             _logger = logger;
-            // Use dummy values for testing
-            _smtpServer = "dummy-smtp-server";
-            _smtpPort = 587;
-            _smtpUsername = "dummy-username";
-            _smtpPassword = "dummy-password";
+            _smtpSettings = smtpSettings.Value;
         }
 
         public async Task SendEmailAsync(string toEmail, string subject, string message)
         {
             try
             {
-                using (var client = new SmtpClient(_smtpServer, _smtpPort))
+                using (var client = new SmtpClient(_smtpSettings.SmtpServer, _smtpSettings.SmtpPort))
                 {
-                    client.Credentials = new NetworkCredential(_smtpUsername, _smtpPassword);
+                    client.Credentials = new NetworkCredential(_smtpSettings.SmtpUsername, _smtpSettings.SmtpPassword);
                     client.EnableSsl = true;
 
                     var mailMessage = new MailMessage
                     {
-                        From = new MailAddress(_smtpUsername),
+                        From = new MailAddress(_smtpSettings.SmtpUsername),
                         Subject = subject,
                         Body = message,
                         IsBodyHtml = true
@@ -51,7 +42,6 @@ namespace DocDocGo.Services
                     _logger.LogInformation($"Email to {toEmail} sent successfully!");
                 }
             }
-
             catch (Exception ex)
             {
                 _logger.LogError($"Failed to send email to {toEmail}. Error: {ex.Message}");

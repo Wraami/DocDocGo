@@ -6,6 +6,7 @@ using Microsoft.AspNetCore.Identity.UI.Services;
 using Microsoft.EntityFrameworkCore;
 using DocDocGo.Repositories.Interfaces;
 using DocDocGo.Repositories;
+using DocDocGo;
 
 var builder = WebApplication.CreateBuilder(args);
 var connString = builder.Configuration.GetConnectionString("HospitalManagementSQLConnection");
@@ -35,6 +36,8 @@ builder.Services.ConfigureApplicationCookie(config =>
 {
     config.LoginPath = "/Account/Login";
 });
+
+builder.Services.Configure<SmtpSettings>(builder.Configuration.GetSection("SmtpSettings")); //From our appsettings.json
 
 builder.Services.AddTransient<IEmailSender, EmailSender>();
 

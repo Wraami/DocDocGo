@@ -7,6 +7,7 @@ using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.RazorPages;
 using Microsoft.AspNetCore.WebUtilities;
 using System.Text;
+using System.Text.Encodings.Web;
 
 namespace DocDocGo.Pages.Administrator
 {
@@ -74,8 +75,8 @@ namespace DocDocGo.Pages.Administrator
                         values: new { userId, code },
                         protocol: Request.Scheme);
 
-                    //Not needed below for purpose of assignment, but if you wanted to configure your own smtp port settings you could
-                    //await _emailSender.SendEmailAsync(CredentialModel.Email, "Confirm your email", 
+                    //Not needed below for purpose of assignment, but if you wanted to configure your own smtp port settings you could, it works as intended, so you can send any email.
+                    //await _emailSender.SendEmailAsync(CredentialModel.Email, "Confirm your email",
                     //    $"Please confirm your account by <a href='{HtmlEncoder.Default.Encode(callbackUrl)}'>clicking here</a>.");
 
                     if (_userManager.Options.SignIn.RequireConfirmedAccount)
