@@ -3,7 +3,6 @@ using DocDocGo.Repositories.Interfaces;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.RazorPages;
-using System.Globalization;
 
 namespace DocDocGo.Pages.Appointments
 {
@@ -107,15 +106,32 @@ namespace DocDocGo.Pages.Appointments
             {
                 return Page();
             }
-            if (SelectedAppointment.StartTime >= SelectedAppointment.EndTime)
+
+            var appointmentToUpdate = await _dbContext.GetByIdAsync(SelectedAppointmentId);
+
+            if (appointmentToUpdate == null)
+            {
+                return NotFound();
+            }
+
+            appointmentToUpdate.Topic = SelectedAppointment.Topic;
+            appointmentToUpdate.PatientId = SelectedAppointment.PatientId;
+            appointmentToUpdate.StartTime = SelectedAppointment.StartTime;
+            appointmentToUpdate.EndTime = SelectedAppointment.EndTime;
+            appointmentToUpdate.Notes = SelectedAppointment.Notes;
+            appointmentToUpdate.Status = SelectedAppointment.Status;
+
+            if (appointmentToUpdate.StartTime >= appointmentToUpdate.EndTime)
             {
                 ModelState.AddModelError("ValidationError", "Appointment starting time must be before end time.");
                 return Page();
             }
-            await _dbContext.UpdateAsync(SelectedAppointment);
+
+            await _dbContext.UpdateAsync(appointmentToUpdate);
 
             return RedirectToPage("/Appointments/Index");
         }
+
 
         public async Task<IActionResult> OnPostDeleteAppointment()
         {

@@ -48,6 +48,7 @@ namespace DocDocGo.Repositories
 
             return entity;
         }
+
         public async Task<AppointmentModel> DeleteAsync(AppointmentModel entity)
         {
             _dbcontext.Remove(entity);
